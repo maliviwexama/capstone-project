@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>Create an Account</h1>
+<form method="post" action="/register" enctype="multipart/form-data">
+    <label>Full Name:</label><br>
+    <input type="text" name="fullName" required><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br><br>
+    <label>Account Type:</label><br>
+    <select name="userType" id="userType" required onchange="toggleFields()">
+        <option value="STUDENT">Student</option>
+        <option value="STAFF">Staff</option>
+    </select><br><br>
+
+    <div id="staffIdField" style="display:none;">
+        <label>Staff ID:</label><br>
+        <input type="text" name="staffId" placeholder="e.g. UFH-S001"><br><br>
+    </div>
+    <div id="studentFields">
+        <label>Student Number:</label><br>
+        <input type="text" name="studentNumber" placeholder="e.g. 202250466"><br><br>
+
+        <label>Proof of Residence Registration:</label><br>
+        <p style="font-size: 0.85rem; color: #666; margin-top: -8px;">Please upload a document for the <strong>current academic year (2026)</strong>. Your account will be reviewed by an administrator.</p>
+        <input type="file" name="proofDocument" accept=".pdf,.jpg,.jpeg,.png"><br><br>
+    </div>
+
+    <div id="residenceField">
+    <label>Residence:</label><br>
+    <select name="residenceId" required>
+        <option value="" disabled selected>Choose your residence</option>
+        <optgroup th:each="zone : ${zones}" th:label="${zone.name}">
+            <option th:each="residence : ${zone.residences}"
+                    th:value="${residence.id}"
+                    th:text="${residence.name}"></option>
+        </optgroup>
+    </select><br><br>
+    </div>
+
+    <button type="submit">Register</button>
+</form>
+<p>Already have an account? <a href="/login">Login here</a></p>
+<script>
+    function toggleFields() {
+        var type = document.getElementById('userType').value;
+        var staffField = document.getElementById('staffIdField');
+        var residenceField = document.getElementById('residenceField');
+        var studentFields = document.getElementById('studentFields');
+        if (type === 'STAFF') {
+            staffField.style.display = 'block';
+            residenceField.style.display = 'none';
+            studentFields.style.display = 'none';
+        } else {
+            staffField.style.display = 'none';
+            residenceField.style.display = 'block';
+            studentFields.style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>

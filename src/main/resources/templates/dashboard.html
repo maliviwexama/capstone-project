@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{fragments :: nav}"></div>
+
+<h1>Welcome, <span th:text="${user.fullName}"></span>!</h1>
+
+<div class="dashboard-intro">
+    <p>This is your maintenance portal for the UFH Residence & Facility system. From here you can report a new issue, track requests you've already submitted, and see who's been assigned to fix them.</p>
+</div>
+
+<div class="quick-actions">
+    <a href="/report-problem" class="action-card">
+        <h3>Report a Problem</h3>
+        <p>Log a new maintenance issue in your room or a common area.</p>
+    </a>
+    <a href="/my-requests" class="action-card">
+        <h3>My Requests</h3>
+        <p>See the status and assigned technician for everything you've reported.</p>
+    </a>
+</div>
+
+<div class="zone-banner" th:if="${activeZone != null}">
+     Currently accepting non-urgent requests from: <span th:text="${activeZone.name}"></span>
+</div>
+<div class="zone-banner" th:if="${activeZone == null}">
+     No zone is currently active for non-urgent requests. Urgent issues (electrical, plumbing) are still processed immediately.
+</div>
+
+<div class="how-it-works">
+    <h3>How it works</h3>
+    <ol>
+        <li>Submit a maintenance request with your room number, category and a description.</li>
+        <li>Urgent issues (electrical, plumbing) are handled immediately. Non-urgent requests are processed one residence zone at a time — set by an admin — to prevent system overload.</li>
+        <li>An admin reviews your request and assigns a technician.</li>
+        <li>Check "My Requests" anytime to see your request's status and who's assigned to it.</li>
+    </ol>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Statistics</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+
+<h1>Complaint Statistics</h1>
+
+<div class="dashboard-intro">
+    <p>Total complaints logged: <strong th:text="${totalComplaints}"></strong></p>
+</div>
+
+<h3 style="margin-bottom: 10px;">Complaints by Category (Recurring Problems)</h3>
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Category</th>
+        <th>Number of Complaints</th>
+    </tr>
+    <tr th:each="entry : ${categoryCounts}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${entry.value}"></td>
+    </tr>
+</table>
+
+<h3 style="margin: 24px 0 10px;">Average Resolution Time by Category</h3>
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Category</th>
+        <th>Average Hours to Resolve</th>
+    </tr>
+    <tr th:each="entry : ${avgResolutionHours}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${#numbers.formatDecimal(entry.value, 1, 2)}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

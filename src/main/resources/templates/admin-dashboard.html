@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+
+<h1>Welcome, <span th:text="${user.fullName}"></span> (Admin)</h1>
+
+<div class="dashboard-intro">
+    <p>This is your admin control panel for the UFH Residence & Facility Maintenance system.</p>
+</div>
+
+<div class="quick-actions">
+    <a href="/admin/complaints" class="action-card">
+        <h3>All Complaints</h3>
+        <p>View every submitted complaint, assign technicians, and update status.</p>
+    </a>
+    <a href="/admin/residences" class="action-card">
+        <h3>Manage Zones</h3>
+        <p>Set which residence zone is currently accepting non-urgent requests.</p>
+    </a>
+    <a href="/admin/statistics" class="action-card">
+        <h3>Statistics</h3>
+        <p>See recurring problems and average resolution time by category.</p>
+    </a>
+    <a href="/admin/verifications" class="action-card">
+        <h3>Verifications</h3>
+        <p>Review pending student registration proof documents.</p>
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pending Verifications</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div
+        th:replace="~{admin-fragments :: adminNav}">
+</div>
+<h1>Pending Student Verifications</h1>
+<div
+        class="dashboard-intro">
+    <p>Check that the student number matches the uploaded document, and that the document is for the <strong>current academic year (2026)</strong> before approving.</p>
+</div>
+<table
+        border="1" cellpadding="8">
+    <tr>
+        <th>Full Name</th>
+        <th>Student Number</th>
+        <th>Residence</th>
+        <th>Document</th>
+        <th>Decision</th>
+    </tr>
+    <tr
+            th:each="student : ${pendingUsers}">
+        <td th:text="${student.fullName}"></td>
+        <td th:text="${student.studentNumber}"></td>
+        <td th:text="${student.residence != null} ? ${student.residence.name} : 'N/A'"></td>
+        <td>
+            <a
+                    th:if="${student.proofDocumentPath != null}"
+                    th:href="@{/admin/verifications/document(userId=${student.id})}" target="_blank">
+                     View Document
+            </a>
+
+            <span
+                    th:if="${student.proofDocumentPath == null}">
+                No document uploaded
+            </span>
+        </td>
+
+        <td>
+            <form
+                    method="post" action="/admin/verifications/review" style="display:inline;">
+                <input type="hidden" name="userId" th:value="${student.id}">
+                <input type="hidden" name="decision" value="APPROVED"> <button type="submit">Approve</button>
+            </form>
+            <form
+                    method="post" action="/admin/verifications/review" style="display:inline;">
+                <input type="hidden" name="userId" th:value="${student.id}">
+                <input type="hidden" name="decision" value="REJECTED"> <button type="submit">Reject</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Requests</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>My Maintenance Requests</h1>
+<p><a href="/dashboard">← Back to Dashboard</a></p>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Assigned Technician</th>
+        <th>Reviewed</th>
+        <th>Date Logged</th>
+        <th>Priority Score</th>
+    </tr>
+    <tr th:each="complaint : ${complaints}">
+        <td th:text="${complaint.category}"></td>
+        <td th:text="${complaint.description}"></td>
+        <td th:text="${complaint.displayStatus}"></td>
+        <td th:text="${complaint.technician != null} ? ${complaint.technician.name} : 'Not yet assigned'"></td>
+        <td th:text="${complaint.openedByAdmin != null} ? 'Yes' : 'No'"></td>
+        <td th:text="${complaint.dateLogged}"></td>
+        <td th:text="${#numbers.formatDecimal(complaint.priorityScore, 1, 2)}"></td>
+    </tr>
+</table>
+</body>
+</html>

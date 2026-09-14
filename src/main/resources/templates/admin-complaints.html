@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Complaints</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+<h1>All Complaints</h1>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Student</th>
+        <th>Room</th>
+        <th>Residence</th>
+        <th>Category</th>
+        <th>Priority Score</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Assigned Technician</th>
+        <th>Opened By</th>
+        <th>Last Updated By</th>
+        <th>Update</th>
+    </tr>
+    <tr th:each="complaint : ${complaints}" th:classappend="${complaint.overdue} ? 'overdue-row' : ''">
+        <td th:text="${complaint.user.fullName}"></td>
+        <td th:text="${complaint.roomNumber}"></td>
+        <td th:text="${complaint.user.residence != null} ? ${complaint.user.residence.name} : 'N/A'"></td>
+        <td th:text="${complaint.category}"></td>
+        <td th:text="${#numbers.formatDecimal(complaint.priorityScore, 1, 2)}"></td>
+        <td th:text="${complaint.description}"></td>
+        <td>
+            <span th:text="${complaint.status}"></span>
+            <span th:if="${complaint.overdue}" class="overdue-badge">OVERDUE</span>
+        </td>
+        <td th:text="${complaint.technician != null} ? ${complaint.technician.name} : 'Unassigned'"></td>
+        <td th:text="${complaint.openedByAdmin != null} ? ${complaint.openedByAdmin.fullName} : 'Not yet reviewed'"></td>
+        <td th:text="${complaint.lastUpdatedByAdmin != null} ? ${complaint.lastUpdatedByAdmin.fullName} : 'Not yet updated'"></td>
+        <td>
+            <form method="post" action="/admin/complaints/assign">
+                <input type="hidden" name="complaintId" th:value="${complaint.id}">
+
+                <select name="technicianId">
+                    <option th:each="tech : ${technicians}"
+                            th:value="${tech.id}"
+                            th:text="${tech.name}"
+                            th:selected="${complaint.technician != null and complaint.technician.id == tech.id}"></option>
+                </select>
+
+                <select name="status">
+                    <option value="OPEN" th:selected="${complaint.status.name() == 'OPEN'}">Open</option>
+                    <option value="IN_PROGRESS" th:selected="${complaint.status.name() == 'IN_PROGRESS'}">In Progress</option>
+                    <option value="RESOLVED" th:selected="${complaint.status.name() == 'RESOLVED'}">Resolved</option>
+                </select>
+
+                <button type="submit">Update</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
