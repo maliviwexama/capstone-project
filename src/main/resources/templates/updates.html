@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Residence Updates | UFH</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<div th:replace="~{fragments :: nav}"></div>
+<div class="page-header"><div><span class="eyebrow">STAY INFORMED</span><h1>Residence Updates</h1><p>Important notices and daily bulletin announcements from the residence team.</p></div></div>
+<div class="bulletin-list">
+    <article class="bulletin-card" th:each="update : ${updates}">
+        <div class="bulletin-meta" th:text="${#temporals.format(update.createdAt, 'dd MMM yyyy, HH:mm')}"></div>
+        <h2 th:text="${update.title}"></h2>
+        <p class="bulletin-message" th:text="${update.message}"></p>
+    </article>
+    <div th:if="${#lists.isEmpty(updates)}" class="empty-state card">No new residence updates right now.</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="nav">
+<nav class="main-nav">
+    <a class="brand-link" href="/dashboard">
+        <img class="nav-logo" src="/images/ufh-logo.png" alt="University of Fort Hare Logo">
+        <span>UFH Residence Maintenance</span>
+    </a>
+    <div class="nav-links">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/report-problem">Report Problem</a>
+        <a href="/my-requests">My Requests</a>
+        <a href="/updates">Updates</a>
+        <a href="/change-password">Password</a>
+        <a class="emergency-nav" href="/emergency">🚨 Emergency</a>
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+</div>
+</body>
+</html>

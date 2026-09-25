@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Complaints | UFH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+
+<div class="page-header">
+    <div>
+        <span class="eyebrow">ADMIN CONTROL</span>
+        <h1>Active Maintenance Complaints</h1>
+        <p>Review, prioritise, assign and respond to unresolved issues.</p>
+        <p class="admin-toolbar">
+            <a class="button-link" href="/admin/resolved-complaints">View Resolved Complaints</a>
+            <a class="button-link secondary-button-link" href="/admin/archived-complaints">Archived / Cleared</a>
+            <a class="button-link" href="/admin/complaints/export">Export Active CSV</a>
+        </p>
+    </div>
+    <form class="sort-form" method="get" action="/admin/complaints">
+        <label for="sort">Sort by</label>
+        <select id="sort" name="sort" onchange="this.form.submit()">
+            <option value="priority" th:selected="${currentSort == 'priority'}">Priority / Overdue</option>
+            <option value="overdue" th:selected="${currentSort == 'overdue'}">Overdue First</option>
+            <option value="high-medium-low" th:selected="${currentSort == 'high-medium-low'}">High → Medium → Low</option>
+            <option value="newest" th:selected="${currentSort == 'newest'}">Newest First</option>
+            <option value="oldest" th:selected="${currentSort == 'oldest'}">Oldest First</option>
+        </select>
+    </form>
+</div>
+
+<div class="verification-banner" th:if="${pendingVerificationCount > 0}">⚠️ <strong th:text="${pendingVerificationCount + ' student verification(s) are pending.'}"></strong> Pending students' complaints remain visible, but an administrator must approve the student in <a href="/admin/verifications">Verifications</a> before assigning or responding to the complaint.</div>
+
+<div class="table-wrap">
+<table>
+    <thead>
+    <tr>
+        <th>Student</th><th>Verification</th><th>Room</th><th>Residence</th><th>Category</th>
+        <th>Priority</th><th>Date Logged</th><th>Time Open</th><th>Description</th><th>Photo</th><th>Status</th><th>Technician</th>
+        <th>Admin Response</th><th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="complaint : ${complaints}" th:classappend="${complaint.overdue} ? 'overdue-row' : ''">
+        <td><strong th:text="${complaint.user.fullName}"></strong><div th:if="${complaint.user.verificationStatus != null and complaint.user.verificationStatus.name() != 'APPROVED'}" class="verification-warning">⚠️ Verification required before processing</div></td>
+        <td><span class="verification-pill"
+                  th:classappend="${complaint.user.verificationStatus != null and complaint.user.verificationStatus.name() == 'APPROVED'} ? 'approved' : 'pending'"
+                  th:text="${complaint.user.verificationStatus != null ? complaint.user.verificationStatus : 'NOT SET'}"></span></td>
+        <td th:text="${complaint.roomNumber}"></td>
+        <td th:text="${complaint.user.residence != null ? complaint.user.residence.name : 'N/A'}"></td>
+        <td th:text="${complaint.category}"></td>
+        <td>
+            <strong class="priority-level" th:classappend="${#strings.toLowerCase(complaint.priorityLevel)}"
+                    th:text="${complaint.priorityLevel}"></strong>
+            <br><small th:text="${#numbers.formatDecimal(complaint.priorityScore, 1, 2)}"></small>
+            <span th:if="${complaint.overdue}" class="overdue-badge">OVERDUE</span>
+        </td>
+        <td th:text="${#temporals.format(complaint.dateLogged, 'dd MMM yyyy, HH:mm')}"></td>
+        <td th:text="${#numbers.formatDecimal(complaint.elapsedHours, 1, 1) + ' h'}"></td>
+        <td class="description-cell" th:text="${complaint.description}"></td>
+        <td><a th:if="${complaint.photoPath != null}" th:href="@{/complaints/photo/{id}(id=${complaint.id})}" target="_blank">View photo</a><span th:unless="${complaint.photoPath != null}" class="muted">None</span></td>
+        <td th:text="${complaint.displayStatus}"></td>
+        <td>
+            <form method="post" action="/admin/complaints/assign" class="inline-form">
+                <input type="hidden" name="complaintId" th:value="${complaint.id}">
+                <select name="technicianId" required th:disabled="${complaint.user.verificationStatus != null and complaint.user.verificationStatus.name() != 'APPROVED'}">
+                    <option value="" disabled th:selected="${complaint.technician == null}">Assign</option>
+                    <option th:each="tech : ${technicians}" th:value="${tech.id}" th:text="${tech.name}"
+                            th:selected="${complaint.technician != null and complaint.technician.id == tech.id}"></option>
+                </select>
+                <select name="status" th:disabled="${complaint.user.verificationStatus != null and complaint.user.verificationStatus.name() != 'APPROVED'}">
+                    <option value="OPEN" th:selected="${complaint.status.name() == 'OPEN'}">Open</option>
+                    <option value="IN_PROGRESS" th:selected="${complaint.status.name() == 'IN_PROGRESS'}">In Progress</option>
+                    <option value="RESOLVED" th:selected="${complaint.status.name() == 'RESOLVED'}">Resolved</option>
+                </select>
+                <button type="submit" th:disabled="${complaint.user.verificationStatus != null and complaint.user.verificationStatus.name() != 'APPROVED'}">Update</button>
+            </form>
+        </td>
+        <td>
+            <span th:if="${complaint.adminResponse != null and !complaint.adminResponse.isBlank()}"
+                  class="response-preview" th:text="${complaint.adminResponse}"></span>
+            <span th:if="${complaint.adminResponse == null or complaint.adminResponse.isBlank()}"
+                  class="muted">No response yet</span>
+        </td>
+        <td>
+            <form method="post" action="/admin/complaints/respond" class="response-form">
+                <input type="hidden" name="complaintId" th:value="${complaint.id}">
+                <textarea name="response" rows="3" placeholder="Send an update to the student..." required th:disabled="${complaint.user.verificationStatus != null and complaint.user.verificationStatus.name() != 'APPROVED'}"
+                          th:text="${complaint.adminResponse}"></textarea>
+                <button type="submit" th:disabled="${complaint.user.verificationStatus != null and complaint.user.verificationStatus.name() != 'APPROVED'}">Send Response</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(complaints)}">
+        <td colspan="14" class="empty-state">No complaints have been submitted yet.</td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

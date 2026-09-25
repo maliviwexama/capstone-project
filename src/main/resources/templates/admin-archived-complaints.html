@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Archived Complaints | UFH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+
+<div class="page-header">
+    <div>
+        <span class="eyebrow">RECORDS / AUDIT</span>
+        <h1>Archived / Cleared Complaints</h1>
+        <p>Cleared complaints are hidden from the active and resolved queues but remain stored in the database for retrieval and reporting.</p>
+    </div>
+    <div class="admin-toolbar">
+        <a class="button-link" href="/admin/archived-complaints/export">Export Archive CSV</a>
+        <a class="button-link secondary-button-link" href="/admin/complaints">← Active Complaints</a>
+    </div>
+</div>
+
+<div class="table-wrap">
+<table>
+    <thead>
+    <tr>
+        <th>ID</th><th>Student</th><th>Verification</th><th>Category</th><th>Description</th>
+        <th>Resolved At</th><th>Attended By</th><th>Archived At</th><th>Archived By</th><th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="complaint : ${complaints}">
+        <td th:text="${complaint.id}"></td>
+        <td th:text="${complaint.user != null ? complaint.user.fullName : 'Unknown'}"></td>
+        <td th:text="${complaint.user != null and complaint.user.verificationStatus != null ? complaint.user.verificationStatus : 'NOT SET'}"></td>
+        <td th:text="${complaint.category}"></td>
+        <td class="description-cell" th:text="${complaint.description}"></td>
+        <td th:text="${complaint.resolvedAt != null ? #temporals.format(complaint.resolvedAt, 'dd MMM yyyy, HH:mm') : '—'}"></td>
+        <td th:text="${complaint.technician != null ? complaint.technician.name : 'Not recorded'}"></td>
+        <td th:text="${complaint.archivedAt != null ? #temporals.format(complaint.archivedAt, 'dd MMM yyyy, HH:mm') : '—'}"></td>
+        <td th:text="${complaint.archivedByAdmin != null ? complaint.archivedByAdmin.fullName : '—'}"></td>
+        <td>
+            <form method="post" th:action="@{/admin/archived-complaints/{id}/restore(id=${complaint.id})}"
+                  onsubmit="return confirm('Restore this complaint to its normal queue?');">
+                <button type="submit">Restore</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(complaints)}">
+        <td colspan="10" class="empty-state">No archived complaints.</td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

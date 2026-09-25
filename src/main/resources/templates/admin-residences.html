@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Zones</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+<h1>Manage Active Zone</h1>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Zone</th>
+        <th>Residences</th>
+        <th>Currently Active?</th>
+        <th>Residence Manager / Duty Phone</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="zone : ${zones}">
+        <td th:text="${zone.name}"></td>
+        <td>
+                <span th:each="res, iter : ${zone.residences}">
+                    <span th:text="${res.name}"></span><span th:if="${!iter.last}">, </span>
+                </span>
+        </td>
+        <td th:text="${zone.active} ? 'Yes' : 'No'"></td>
+        <td>
+            <div th:each="res : ${zone.residences}" class="manager-phone-row">
+                <strong th:text="${res.name}"></strong>
+                <form method="post" action="/admin/residences/manager-phone" class="inline-form">
+                    <input type="hidden" name="residenceId" th:value="${res.id}">
+                    <input type="tel" name="managerPhone" th:value="${res.managerPhone}"
+                           placeholder="e.g. 0821234567">
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+        </td>
+        <td>
+            <form method="post" action="/admin/residences/activate">
+                <input type="hidden" name="zoneId" th:value="${zone.id}">
+                <button type="submit">Make Active</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

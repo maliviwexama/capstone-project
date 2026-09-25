@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report a Problem | UFH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{fragments :: nav}"></div>
+
+<div class="page-header">
+    <div>
+        <span class="eyebrow">MAINTENANCE REPORT</span>
+        <h1>Report a Maintenance Problem</h1>
+        <p>Give the residence team enough information to understand and resolve the issue quickly.</p>
+    </div>
+</div>
+
+<div class="card report-card">
+    <div th:if="${error != null}" class="error-message" th:text="${error}"></div>
+    <form method="post" action="/report-problem" enctype="multipart/form-data" class="standard-form">
+        <label th:if="${user.userType.name() == 'STUDENT'}" for="roomNumber">Room Number</label>
+        <label th:if="${user.userType.name() != 'STUDENT'}" for="roomNumber">Location (e.g. house number or address)</label>
+        <input id="roomNumber" type="text" name="roomNumber"
+               th:placeholder="${user.userType.name() == 'STUDENT'} ? 'e.g. B204' : 'e.g. House 14, Staff Village'" required>
+
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+            <option value="PLUMBING">Plumbing</option>
+            <option value="ELECTRICAL">Electrical</option>
+            <option value="STRUCTURAL">Structural</option>
+            <option value="FURNITURE">Furniture</option>
+            <option value="OTHER">Other</option>
+        </select>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5" placeholder="Describe what is wrong and where it is happening..." required></textarea>
+
+        <label for="photo">Photo of the problem <span class="muted">(optional)</span></label>
+        <div class="photo-upload-box">
+            <input id="photo" type="file" name="photo" accept="image/*" capture="environment">
+            <p class="muted">On a phone, you can use the camera to take a picture. Maximum 5 MB.</p>
+            <img id="photoPreview" class="photo-preview" alt="Selected problem photo preview" style="display:none;">
+        </div>
+
+        <button type="submit" class="primary-button">Submit Maintenance Request</button>
+    </form>
+</div>
+
+<script>
+const photoInput = document.getElementById('photo');
+const preview = document.getElementById('photoPreview');
+photoInput.addEventListener('change', function () {
+    const file = this.files && this.files[0];
+    if (!file) { preview.style.display = 'none'; return; }
+    if (!file.type.startsWith('image/')) {
+        this.value = '';
+        preview.style.display = 'none';
+        alert('Please select an image file.');
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+    reader.readAsDataURL(file);
+});
+</script>
+</body>
+</html>

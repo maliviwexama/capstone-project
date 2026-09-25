@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Admin Dashboard | UFH</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+<div class="page-header"><div><span class="eyebrow">ADMIN CONTROL CENTRE</span><h1>Welcome, <span th:text="${user.fullName}"></span></h1>
+<p>Manage maintenance, residence communication and user accounts from one place.</p></div></div>
+<div class="quick-actions">
+<a href="/admin/complaints" class="action-card"><span class="card-icon">🛠️</span><h3>Active Complaints</h3><p>Sort, assign, update and respond to unresolved requests.</p></a>
+<a href="/admin/resolved-complaints" class="action-card"><span class="card-icon">✅</span><h3>Resolved Complaints</h3><p>Review completed work and archive old complaints.</p></a>
+<a href="/admin/archived-complaints" class="action-card"><span class="card-icon">🗄️</span><h3>Complaint Archive</h3><p>Retrieve complaints that were cleared from the active queues.</p></a>
+<a href="/admin/residences" class="action-card"><span class="card-icon">🏠</span><h3>Manage Zones</h3><p>Control residence request zones.</p></a>
+<a href="/admin/statistics" class="action-card"><span class="card-icon">📊</span><h3>Statistics</h3><p>View recurring problems and resolution times.</p></a>
+<a href="/admin/verifications" class="action-card"><span class="card-icon">✅</span><h3>Verifications</h3><p>Review student registration documents.</p></a>
+<a href="/admin/feedback" class="action-card"><span class="card-icon">⭐</span><h3>Student Feedback</h3><p>Review ratings and comments.</p></a>
+<a href="/admin/members" class="action-card"><span class="card-icon">👥</span><h3>Add Members</h3><p>Create student or staff accounts without MySQL.</p></a>
+<a href="/admin/bulletin" class="action-card"><span class="card-icon">📢</span><h3>Daily Bulletin</h3><p>Publish residence announcements and updates.</p></a>
+</div>
+</body>
+</html>

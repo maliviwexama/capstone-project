@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics | UFH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+
+<div class="page-header">
+    <div>
+        <span class="eyebrow">REPORTING</span>
+        <h1>Complaint Statistics</h1>
+        <p>Use these figures to identify recurring problems and understand how long different categories take to resolve.</p>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card"><span>All Records</span><strong th:text="${totalComplaints}"></strong></div>
+    <div class="stat-card"><span>Active</span><strong th:text="${activeCount}"></strong></div>
+    <div class="stat-card"><span>Resolved</span><strong th:text="${resolvedCount}"></strong></div>
+    <div class="stat-card"><span>Archived</span><strong th:text="${archivedCount}"></strong></div>
+</div>
+
+<h3>Complaints by Category (Recurring Problems)</h3>
+<table>
+    <thead><tr><th>Category</th><th>Number of Complaints</th></tr></thead>
+    <tbody>
+    <tr th:each="entry : ${categoryCounts}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${entry.value}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h3 class="section-heading">Average Resolution Time by Category</h3>
+<p class="muted">This is the average time from <strong>complaint logged</strong> to <strong>resolved</strong> for resolved complaints in each category.</p>
+<table>
+    <thead><tr><th>Category</th><th>Resolved Complaints</th><th>Average Hours to Resolve</th></tr></thead>
+    <tbody>
+    <tr th:each="entry : ${avgResolutionHours}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${resolvedCounts[entry.key]}"></td>
+        <td th:text="${#numbers.formatDecimal(entry.value, 1, 2) + ' h'}"></td>
+    </tr>
+    <tr th:if="${#maps.isEmpty(avgResolutionHours)}"><td colspan="3" class="empty-state">No resolved complaints have enough timing data yet.</td></tr>
+    </tbody>
+</table>
+
+<h3 class="section-heading">Current Active Time by Category</h3>
+<p class="muted">For unresolved complaints, this shows the average time each category has currently been waiting. This value continues to increase until the complaint is resolved.</p>
+<table>
+    <thead><tr><th>Category</th><th>Average Current Waiting Time</th></tr></thead>
+    <tbody>
+    <tr th:each="entry : ${avgActiveHours}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${#numbers.formatDecimal(entry.value, 1, 2) + ' h'}"></td>
+    </tr>
+    <tr th:if="${#maps.isEmpty(avgActiveHours)}"><td colspan="2" class="empty-state">No active complaints.</td></tr>
+    </tbody>
+</table>
+</body>
+</html>

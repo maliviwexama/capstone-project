@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Add Member | UFH</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+<div class="page-header"><div><span class="eyebrow">ADMIN TOOLS</span><h1>Add a Member</h1><p>Create a student or staff account without accessing MySQL.</p></div></div>
+<div class="card form-card">
+<p class="error" th:if="${error}" th:text="${error}"></p>
+<p class="success-message" th:if="${param.success}">Member account created successfully.</p>
+<form method="post" action="/admin/members" class="standard-form">
+    <label>Full name</label><input type="text" name="fullName" required>
+    <label>Email</label><input type="email" name="email" required>
+    <label>Temporary password</label><input type="password" name="password" required>
+    <label>Account type</label>
+    <select name="userType" id="memberType" onchange="toggleMemberFields()" required>
+        <option value="STUDENT">Student</option><option value="STAFF">Staff</option>
+    </select>
+    <div id="studentFields">
+        <label>Student number</label><input type="text" name="studentNumber" pattern="[0-9]{9}" maxlength="9" title="Exactly 9 digits">
+        <label>Residence</label>
+        <select name="residenceId">
+            <option value="">Choose residence</option>
+            <th:block th:each="zone : ${residences}">
+                <option th:each="residence : ${zone.residences}" th:value="${residence.id}" th:text="${residence.name}"></option>
+            </th:block>
+        </select>
+    </div>
+    <div id="staffFields" style="display:none">
+        <label>Staff ID</label><input type="text" name="staffId" pattern="UFH/[0-9]{3}" maxlength="7" placeholder="UFH/123" title="Format: UFH/123">
+    </div>
+    <button type="submit">Create Member</button>
+</form>
+</div>
+<script>
+function toggleMemberFields(){
+  const student = document.getElementById('memberType').value === 'STUDENT';
+  document.getElementById('studentFields').style.display = student ? 'block' : 'none';
+  document.getElementById('staffFields').style.display = student ? 'none' : 'block';
+}
+</script>
+</body>
+</html>

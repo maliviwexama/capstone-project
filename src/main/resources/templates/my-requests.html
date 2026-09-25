@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Requests | UFH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{fragments :: nav}"></div>
+<div class="page-header">
+    <div>
+        <span class="eyebrow">MAINTENANCE PORTAL</span>
+        <h1>My Maintenance Requests</h1>
+        <p>Track progress, technician assignment and responses from residence staff.</p>
+    </div>
+</div>
+
+<div class="table-wrap">
+<table>
+    <thead><tr>
+        <th>Category</th><th>Description</th><th>Photo</th><th>Status</th><th>Technician</th>
+        <th>Date Logged</th><th>Priority</th><th>Admin Response</th><th>Feedback</th>
+    </tr></thead>
+    <tbody>
+    <tr th:each="complaint : ${complaints}">
+        <td th:text="${complaint.category}"></td>
+        <td th:text="${complaint.description}"></td>
+        <td><a th:if="${complaint.photoPath != null}" th:href="@{/complaints/photo/{id}(id=${complaint.id})}" target="_blank">View photo</a><span th:unless="${complaint.photoPath != null}" class="muted">None</span></td>
+        <td><span class="status-pill" th:text="${complaint.displayStatus}"></span></td>
+        <td th:text="${complaint.technician != null ? complaint.technician.name : 'Not yet assigned'}"></td>
+        <td th:text="${#temporals.format(complaint.dateLogged, 'dd MMM yyyy, HH:mm')}"></td>
+        <td th:text="${#numbers.formatDecimal(complaint.priorityScore, 1, 2)}"></td>
+        <td>
+            <div th:if="${complaint.adminResponse != null and !complaint.adminResponse.isBlank()}">
+                <strong>Response:</strong>
+                <span th:text="${complaint.adminResponse}"></span>
+                <small th:if="${complaint.responseDate != null}" th:text="${' • ' + #temporals.format(complaint.responseDate, 'dd MMM yyyy, HH:mm')}"></small>
+            </div>
+            <span th:unless="${complaint.adminResponse != null and !complaint.adminResponse.isBlank()}" class="muted">
+                No response yet
+            </span>
+        </td>
+        <td>
+            <a class="button-link" th:if="${complaint.status.name() == 'RESOLVED' and !hasFeedback[complaint.id]}"
+               th:href="@{/feedback(complaintId=${complaint.id})}">Leave Feedback</a>
+            <span th:if="${complaint.status.name() == 'RESOLVED' and hasFeedback[complaint.id]}">Submitted ✓</span>
+            <span th:if="${complaint.status.name() != 'RESOLVED'}" class="muted">Available when resolved</span>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(complaints)}"><td colspan="9" class="empty-state">You have no maintenance requests yet.</td></tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

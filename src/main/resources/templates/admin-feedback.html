@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Feedback</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .feedback-container {
+            margin: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1f477d;
+            color: white;
+        }
+
+        .rating {
+            color: #f5b301;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="feedback-container">
+
+    <h1>Student Feedback</h1>
+
+    <p>
+        <a href="/admin/dashboard">← Back to Dashboard</a>
+    </p>
+
+    <table>
+
+        <tr>
+            <th>Complaint</th>
+            <th>Student</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Date Submitted</th>
+        </tr>
+
+        <tr th:each="feedback : ${feedbackList}">
+
+            <td th:text="${feedback.complaint.description}">
+                Complaint
+            </td>
+
+            <td th:text="${feedback.user.fullName}">
+                Student
+            </td>
+
+            <td>
+                <span class="rating"
+                      th:text="${feedback.rating != null ? '★'.repeat(feedback.rating) : 'No rating'}">
+                    ★★★★★
+                </span>
+            </td>
+
+            <td th:text="${feedback.comment != null and !feedback.comment.isEmpty() ? feedback.comment : 'No comment'}">
+                No comment
+            </td>
+
+            <td th:text="${#temporals.format(feedback.dateSubmitted, 'dd MMM yyyy, HH:mm')}">
+                Date
+            </td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resolved Complaints | UFH</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+<div class="page-header">
+    <div>
+        <span class="eyebrow">COMPLETED WORK</span>
+        <h1>Resolved Complaints</h1>
+        <p>Completed complaints are moved here so the active queue stays clear. Their priority is frozen at the time of resolution.</p>
+        <p class="admin-toolbar">
+            <a class="button-link" href="/admin/resolved-complaints/export">Export Resolved CSV</a>
+            <a class="button-link secondary-button-link" href="/admin/archived-complaints">View Archived / Cleared</a>
+        </p>
+    </div>
+    <a class="button-link" href="/admin/complaints">← Back to Active Complaints</a>
+</div>
+
+<div class="table-wrap">
+<table>
+    <thead>
+    <tr><th>Student</th><th>Room</th><th>Category</th><th>Description</th><th>Photo</th><th>Resolved At</th><th>Time to Resolve</th><th>Priority at Resolution</th><th>Attended By</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="complaint : ${complaints}">
+        <td th:text="${complaint.user.fullName}"></td>
+        <td th:text="${complaint.roomNumber}"></td>
+        <td th:text="${complaint.category}"></td>
+        <td class="description-cell" th:text="${complaint.description}"></td>
+        <td><a th:if="${complaint.photoPath != null}" th:href="@{/complaints/photo/{id}(id=${complaint.id})}" target="_blank">View photo</a><span th:unless="${complaint.photoPath != null}" class="muted">None</span></td>
+        <td th:text="${complaint.resolvedAt != null ? #temporals.format(complaint.resolvedAt, 'dd MMM yyyy, HH:mm') : '—'}"></td>
+        <td th:text="${#numbers.formatDecimal(complaint.elapsedHours, 1, 1) + ' h'}"></td>
+        <td>
+            <strong class="priority-level" th:classappend="${#strings.toLowerCase(complaint.priorityLevel)}"
+                    th:text="${complaint.priorityLevel}"></strong>
+            <br><small th:text="${#numbers.formatDecimal(complaint.priorityScore, 1, 2)}"></small>
+        </td>
+        <td th:text="${complaint.technician != null ? complaint.technician.name : 'Not recorded'}"></td>
+        <td>
+            <form method="post" th:action="@{/admin/resolved-complaints/{id}/clear(id=${complaint.id})}" onsubmit="return confirm('Archive this resolved complaint? It will remain retrievable in the database.');">
+                <button type="submit" class="danger-button">Clear</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(complaints)}"><td colspan="10" class="empty-state">No resolved complaints yet.</td></tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

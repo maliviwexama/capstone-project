@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | UFH Residence Maintenance</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body class="auth-page">
+
+<div class="auth-container">
+
+    <!-- UFH BRANDING -->
+    <div class="auth-brand">
+
+        <div class="logo-placeholder">
+            <img src="/images/ufh-logo.png"
+                 alt="University of Fort Hare Logo">
+        </div>
+
+        <h1>Residence Maintenance</h1>
+        <p>University of Fort Hare</p>
+
+    </div>
+
+
+    <!-- REGISTRATION CARD -->
+    <div class="auth-card">
+
+        <div class="auth-heading">
+            <div class="welcome-label">WELCOME</div>
+
+            <h2>Create your account</h2>
+
+            <p>
+                Register to submit and track residence maintenance requests.
+            </p>
+        </div>
+
+
+        <p class="error" th:if="${error}" th:text="${error}"></p>
+
+        <p class="error" th:if="${error}" th:text="${error}"></p>
+
+        <form method="post"
+              action="/register"
+              enctype="multipart/form-data">
+
+
+            <!-- FULL NAME -->
+            <div class="form-group">
+
+                <label for="fullName">
+                    Full Name
+                </label>
+
+                <input type="text"
+                       id="fullName"
+                       name="fullName"
+                       placeholder="Enter your full name"
+                       required>
+
+            </div>
+
+
+            <!-- EMAIL -->
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input type="email"
+                       id="email"
+                       name="email"
+                       placeholder="Enter your email address"
+                       required>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Create a password"
+                       required>
+
+            </div>
+
+
+            <!-- ACCOUNT TYPE -->
+            <div class="form-group">
+
+                <label for="userType">
+                    Account Type
+                </label>
+
+                <select name="userType"
+                        id="userType"
+                        required
+                        onchange="toggleFields()">
+
+                    <option value="STUDENT">
+                        Student
+                    </option>
+
+                    <option value="STAFF">
+                        Staff
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STAFF INFORMATION -->
+            <div id="staffIdField"
+                 class="conditional-section"
+                 style="display: none;">
+
+                <div class="form-group">
+
+                    <label for="staffId">
+                        Staff ID
+                    </label>
+
+                    <input type="text"
+                           id="staffId"
+                           name="staffId"
+                           placeholder="e.g. UFH/123"
+                           pattern="UFH/[0-9]{3}"
+                           maxlength="7"
+                           title="Staff ID must be in the format UFH/123">
+
+                </div>
+
+            </div>
+
+
+            <!-- STUDENT INFORMATION -->
+            <div id="studentFields"
+                 class="conditional-section">
+
+                <div class="form-group">
+
+                    <label for="studentNumber">
+                        Student Number
+                    </label>
+
+                    <input type="text"
+                           id="studentNumber"
+                           name="studentNumber"
+                           placeholder="e.g. 202250466"
+                           pattern="[0-9]{9}"
+                           maxlength="9"
+                           title="Student number must contain exactly 9 digits">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="proofDocument">
+                        Proof of Residence Registration
+                    </label>
+
+                    <div class="upload-info">
+                        Please upload a document for the
+                        <strong>current academic year (2026)</strong>.
+                        Your account will be reviewed by an administrator.
+                    </div>
+
+                    <input type="file"
+                           id="proofDocument"
+                           name="proofDocument"
+                           accept=".pdf,.jpg,.jpeg,.png">
+
+                </div>
+
+            </div>
+
+
+            <!-- RESIDENCE -->
+            <div id="residenceField"
+                 class="conditional-section">
+
+                <div class="form-group">
+
+                    <label for="residenceId">
+                        Residence
+                    </label>
+
+                    <select name="residenceId"
+                            id="residenceId"
+                            required>
+
+                        <option value=""
+                                disabled
+                                selected>
+                            Choose your residence
+                        </option>
+
+                        <optgroup th:each="zone : ${zones}"
+                                  th:label="${zone.name}">
+
+                            <option th:each="residence : ${zone.residences}"
+                                    th:value="${residence.id}"
+                                    th:text="${residence.name}">
+                            </option>
+
+                        </optgroup>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- REGISTER BUTTON -->
+            <button type="submit"
+                    class="primary-button">
+
+                Create Account
+
+            </button>
+
+        </form>
+
+
+        <!-- LOGIN LINK -->
+        <div class="auth-footer">
+
+            <span>Already have an account?</span>
+
+            <a href="/login">
+                Login here
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- SYSTEM FOOTER -->
+    <div class="system-footer">
+        UFH Residence Maintenance System
+    </div>
+
+</div>
+
+<!-- STUDENT / STAFF TOGGLE -->
+
+<script>
+
+    function toggleFields() {
+
+        const type =
+            document.getElementById("userType").value;
+
+        const staffField =
+            document.getElementById("staffIdField");
+
+        const residenceField =
+            document.getElementById("residenceField");
+
+        const studentFields =
+            document.getElementById("studentFields");
+
+        const residenceSelect =
+            document.getElementById("residenceId");
+
+
+        if (type === "STAFF") {
+
+            staffField.style.display = "block";
+
+            residenceField.style.display = "none";
+            residenceSelect.required = false;
+
+            studentFields.style.display = "none";
+
+        } else {
+
+            staffField.style.display = "none";
+
+            residenceField.style.display = "block";
+            residenceSelect.required = true;
+
+            studentFields.style.display = "block";
+
+        }
+
+    }
+
+</script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Daily Bulletin | UFH</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<div th:replace="~{admin-fragments :: adminNav}"></div>
+<div class="page-header"><div><span class="eyebrow">ADMIN TOOLS</span><h1>Daily Bulletin</h1><p>Publish important announcements that students can see on the Updates page.</p></div></div>
+
+<div class="split-layout">
+<section class="card">
+<h2>Publish an announcement</h2>
+<form method="post" action="/admin/bulletin" class="standard-form">
+    <label>Title</label><input type="text" name="title" maxlength="150" required>
+    <label>Message</label><textarea name="message" rows="7" maxlength="4000" required></textarea>
+    <button type="submit">Publish Update</button>
+</form>
+</section>
+<section>
+<h2>Previous announcements</h2>
+<article class="bulletin-card" th:each="bulletin : ${bulletins}">
+    <div class="bulletin-meta" th:text="${#temporals.format(bulletin.createdAt, 'dd MMM yyyy, HH:mm')}"></div>
+    <h3 th:text="${bulletin.title}"></h3>
+    <p th:text="${bulletin.message}"></p>
+    <span class="status-pill" th:text="${bulletin.active ? 'Published' : 'Archived'}"></span>
+    <form th:if="${bulletin.active}" method="post" th:action="@{/admin/bulletin/{id}/archive(id=${bulletin.id})}" class="archive-form">
+        <button type="submit" class="secondary-button">Archive</button>
+    </form>
+</article>
+</section>
+</div>
+</body>
+</html>
