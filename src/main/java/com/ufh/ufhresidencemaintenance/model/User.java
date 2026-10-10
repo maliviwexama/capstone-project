@@ -1,6 +1,7 @@
 package com.ufh.ufhresidencemaintenance.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -31,9 +32,20 @@ public class User {
 
     private java.time.LocalDateTime verificationReviewedAt;
 
+    @Column(length = 500)
+    private String verificationReviewMessage;
+
     @ManyToOne
     @JoinColumn(name = "verification_reviewed_by_admin_id")
     private User verificationReviewedByAdmin;
+
+    // Account protection: five incorrect logins trigger a temporary lock.
+    private int failedLoginAttempts = 0;
+    private LocalDateTime lockedUntil;
+
+    // Password reset protection: at most three failed identity checks in a 30-minute window.
+    private int passwordResetAttempts = 0;
+    private LocalDateTime passwordResetWindowStart;
 
     // Getters and setters
 
@@ -122,6 +134,14 @@ public class User {
         this.verificationReviewedAt = verificationReviewedAt;
     }
 
+    public String getVerificationReviewMessage() {
+        return verificationReviewMessage;
+    }
+
+    public void setVerificationReviewMessage(String verificationReviewMessage) {
+        this.verificationReviewMessage = verificationReviewMessage;
+    }
+
     public User getVerificationReviewedByAdmin() {
         return verificationReviewedByAdmin;
     }
@@ -129,4 +149,13 @@ public class User {
     public void setVerificationReviewedByAdmin(User verificationReviewedByAdmin) {
         this.verificationReviewedByAdmin = verificationReviewedByAdmin;
     }
+
+    public int getFailedLoginAttempts() { return failedLoginAttempts; }
+    public void setFailedLoginAttempts(int failedLoginAttempts) { this.failedLoginAttempts = failedLoginAttempts; }
+    public LocalDateTime getLockedUntil() { return lockedUntil; }
+    public void setLockedUntil(LocalDateTime lockedUntil) { this.lockedUntil = lockedUntil; }
+    public int getPasswordResetAttempts() { return passwordResetAttempts; }
+    public void setPasswordResetAttempts(int passwordResetAttempts) { this.passwordResetAttempts = passwordResetAttempts; }
+    public LocalDateTime getPasswordResetWindowStart() { return passwordResetWindowStart; }
+    public void setPasswordResetWindowStart(LocalDateTime passwordResetWindowStart) { this.passwordResetWindowStart = passwordResetWindowStart; }
 }

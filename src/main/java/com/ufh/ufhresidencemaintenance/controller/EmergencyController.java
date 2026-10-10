@@ -17,9 +17,7 @@ public class EmergencyController {
     @GetMapping("/emergency")
     public String emergency(HttpSession session, Model model) {
         Long userId = (Long) session.getAttribute("loggedInUser");
-        if (userId == null) return "redirect:/login";
-
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userId == null ? null : userRepository.findById(userId).orElse(null);
         model.addAttribute("residenceManagerPhone",
                 user != null && user.getResidence() != null ? user.getResidence().getManagerPhone() : null);
 

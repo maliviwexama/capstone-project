@@ -45,3 +45,23 @@ Before demonstrating:
 7. Test exporting resolved complaints.
 8. Test archiving and restoring a resolved complaint.
 9. Test Emergency → GBV and the call buttons.
+
+
+## Additional integrated features
+
+- Cinematic first-session cover page with typed poetic line and UFH-themed residence illustration.
+- Full-name validation using letters, spaces and common name punctuation only.
+- Student-facing explanation of HIGH / MEDIUM / LOW maintenance priority.
+- Safety Concern reporting flag for potentially dangerous faults.
+- Safety concerns contribute to priority and are treated as urgent for inactive-zone rules.
+- Administrator-friendly elapsed-time display (days/hours/minutes).
+- LAN-ready server binding configuration (`server.address=0.0.0.0`).
+
+
+## Final group-requested corrections — 8 October 2026
+
+- Student proof of residence registration is mandatory before a student account can be created.
+- Maintenance report submissions use a one-time server-side form token plus client-side submit protection to prevent duplicate requests.
+- Added no-cache response headers so logged-out authenticated pages are not retained for browser Back/Forward navigation.
+- Removed the client-side safety warning banner from the report form while keeping server-side safety detection.
+- Fixed the duplicated photo label in the report form.

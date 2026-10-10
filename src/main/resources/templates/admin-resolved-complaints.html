@@ -33,10 +33,10 @@
         <td class="description-cell" th:text="${complaint.description}"></td>
         <td><a th:if="${complaint.photoPath != null}" th:href="@{/complaints/photo/{id}(id=${complaint.id})}" target="_blank">View photo</a><span th:unless="${complaint.photoPath != null}" class="muted">None</span></td>
         <td th:text="${complaint.resolvedAt != null ? #temporals.format(complaint.resolvedAt, 'dd MMM yyyy, HH:mm') : '—'}"></td>
-        <td th:text="${#numbers.formatDecimal(complaint.elapsedHours, 1, 1) + ' h'}"></td>
+        <td><strong th:text="${complaint.elapsedDisplay}"></strong></td>
         <td>
             <strong class="priority-level" th:classappend="${#strings.toLowerCase(complaint.priorityLevel)}"
-                    th:text="${complaint.priorityLevel}"></strong>
+                    th:text="${complaint.priorityLevel}"></strong><span th:if="${complaint.safetyConcern}" class="safety-badge">SAFETY</span>
             <br><small th:text="${#numbers.formatDecimal(complaint.priorityScore, 1, 2)}"></small>
         </td>
         <td th:text="${complaint.technician != null ? complaint.technician.name : 'Not recorded'}"></td>

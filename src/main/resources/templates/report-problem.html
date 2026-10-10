@@ -18,7 +18,8 @@
 
 <div class="card report-card">
     <div th:if="${error != null}" class="error-message" th:text="${error}"></div>
-    <form method="post" action="/report-problem" enctype="multipart/form-data" class="standard-form">
+    <form method="post" action="/report-problem" enctype="multipart/form-data" class="standard-form" id="reportForm">
+        <input type="hidden" name="complaintFormToken" th:value="${complaintFormToken}">
         <label th:if="${user.userType.name() == 'STUDENT'}" for="roomNumber">Room Number</label>
         <label th:if="${user.userType.name() != 'STUDENT'}" for="roomNumber">Location (e.g. house number or address)</label>
         <input id="roomNumber" type="text" name="roomNumber"
@@ -36,6 +37,26 @@
         <label for="description">Description</label>
         <textarea id="description" name="description" rows="5" placeholder="Describe what is wrong and where it is happening..." required></textarea>
 
+        <label class="safety-check">
+            <input type="checkbox" name="safetyConcern" value="true">
+            <span>
+                <strong>Safety concern</strong>
+                <small>Tick this if the problem could cause injury or make the residence unsafe, for example a broken door, broken lock, exposed wiring, sparking, flooding or a dangerous electrical fault. The system also checks your description for common safety indicators.</small>
+            </span>
+        </label>
+
+        <section class="priority-guide">
+            <div class="eyebrow">HOW PRIORITY WORKS</div>
+            <h2>Why does my request have a priority?</h2>
+            <p>The system helps administrators handle the most urgent problems first.</p>
+            <div class="priority-guide-grid">
+                <div><strong class="priority-level high">HIGH</strong><span>Safety risks, serious electrical problems, or issues that become more urgent while waiting.</span></div>
+                <div><strong class="priority-level medium">MEDIUM</strong><span>Problems that significantly affect normal residence use but are not an immediate danger.</span></div>
+                <div><strong class="priority-level low">LOW</strong><span>Non-urgent issues such as minor repairs or convenience problems.</span></div>
+            </div>
+            <p class="muted">Priority is calculated from the problem category, a reported or detected safety concern and how long the request has been waiting. For example, a report mentioning a broken door and a broken bulb can be flagged as a safety-related report so it is not treated as two ordinary convenience problems.</p>
+        </section>
+
         <label for="photo">Photo of the problem <span class="muted">(optional)</span></label>
         <div class="photo-upload-box">
             <input id="photo" type="file" name="photo" accept="image/*" capture="environment">
@@ -48,20 +69,38 @@
 </div>
 
 <script>
+const reportForm = document.getElementById('reportForm');
+const submitButton = reportForm.querySelector('button[type="submit"]');
+
 const photoInput = document.getElementById('photo');
 const preview = document.getElementById('photoPreview');
+
 photoInput.addEventListener('change', function () {
     const file = this.files && this.files[0];
-    if (!file) { preview.style.display = 'none'; return; }
+    if (!file) {
+        preview.style.display = 'none';
+        return;
+    }
+
     if (!file.type.startsWith('image/')) {
         this.value = '';
         preview.style.display = 'none';
-        alert('Please select an image file.');
         return;
     }
+
     const reader = new FileReader();
-    reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+    reader.onload = e => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+    };
     reader.readAsDataURL(file);
+});
+
+// Prevent accidental double-clicks and repeated browser submissions.
+reportForm.addEventListener('submit', function () {
+    if (submitButton.disabled) return;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
 });
 </script>
 </body>

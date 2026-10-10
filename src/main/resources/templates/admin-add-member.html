@@ -8,7 +8,7 @@
 <p class="error" th:if="${error}" th:text="${error}"></p>
 <p class="success-message" th:if="${param.success}">Member account created successfully.</p>
 <form method="post" action="/admin/members" class="standard-form">
-    <label>Full name</label><input type="text" name="fullName" required>
+    <label>Full name</label><input type="text" name="fullName" pattern="[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ .'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*" maxlength="100" title="Use letters, spaces, apostrophes, hyphens and full stops only." required>
     <label>Email</label><input type="email" name="email" required>
     <label>Temporary password</label><input type="password" name="password" required>
     <label>Account type</label>

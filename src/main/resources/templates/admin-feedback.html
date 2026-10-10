@@ -66,8 +66,7 @@
 
             <td>
                 <span class="rating"
-                      th:text="${feedback.rating != null ? '★'.repeat(feedback.rating) : 'No rating'}">
-                    ★★★★★
+                      th:text="${feedback.rating != null ? feedback.rating + ' / 5' : 'Not provided'}">
                 </span>
             </td>
 

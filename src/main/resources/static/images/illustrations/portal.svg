@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" role="img" aria-label="Residence maintenance portal illustration">
+  <g fill="none" stroke="#1A3C6E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M35 72 110 20l75 52v66H35z"/>
+    <path d="M88 138V94h44v44"/>
+    <path d="M55 82h22M143 82h22"/>
+  </g>
+  <g fill="none" stroke="#F4B942" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m62 44 48-33 48 33"/>
+    <path d="M155 104a27 27 0 1 1-16-25"/>
+    <path d="m145 78 10-1-2 10"/>
+  </g>
+</svg>

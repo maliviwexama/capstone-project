@@ -11,7 +11,7 @@
 
 </head>
 
-<body class="auth-page">
+<body class="auth-page cinematic-auth-page">
 
 <div class="auth-container">
 
@@ -45,8 +45,6 @@
 
         <p class="error" th:if="${error}" th:text="${error}"></p>
 
-        <p class="error" th:if="${error}" th:text="${error}"></p>
-
         <form method="post"
               action="/register"
               enctype="multipart/form-data">
@@ -63,6 +61,10 @@
                        id="fullName"
                        name="fullName"
                        placeholder="Enter your full name"
+                       pattern="[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ .'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*"
+                       maxlength="100"
+                       title="Use letters, spaces, apostrophes, hyphens and full stops only."
+                       autocomplete="name"
                        required>
 
             </div>
@@ -185,7 +187,7 @@
                     <input type="file"
                            id="proofDocument"
                            name="proofDocument"
-                           accept=".pdf,.jpg,.jpeg,.png">
+                           accept=".pdf,application/pdf">
 
                 </div>
 
@@ -223,6 +225,7 @@
                         </optgroup>
 
                     </select>
+                    <small class="form-hint" th:if="${#lists.isEmpty(zones)}">Residence choices have not been configured yet. Please contact the administrator.</small>
 
                 </div>
 

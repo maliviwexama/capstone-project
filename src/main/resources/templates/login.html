@@ -1,23 +1,101 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Login | UFH Residence Maintenance</title><link rel="stylesheet" href="/css/style.css"></head>
-<body class="auth-page">
-<div class="auth-container">
-<div class="auth-brand"><div class="logo-placeholder"><img src="/images/ufh-logo.png" alt="University of Fort Hare Logo"></div><h1>Residence Maintenance</h1><p>University of Fort Hare</p></div>
-<div class="auth-card">
-<div class="auth-heading"><div class="welcome-label">WELCOME BACK</div><h2>Sign in</h2><p>Access your residence maintenance portal.</p></div>
-<p class="success-message" th:if="${param.loggedout}">You have been logged out successfully.</p>
-<p class="success-message" th:if="${param.reset}">Password reset successfully. You can now sign in with your new password.</p>
-<p class="error" th:if="${error}" th:text="${error}"></p>
-<form method="post" action="/login">
-<div class="form-group"><label>Email</label><input type="email" name="email" required></div>
-<div class="form-group"><label>Password</label><input type="password" name="password" required></div>
-<button type="submit" class="primary-button">Login</button>
-</form>
-<div class="auth-footer"><a href="/forgot-password">Forgot your password?</a></div>
-<div class="auth-footer"><span>New here?</span><a href="/register">Create an account</a></div>
-</div>
-<div class="system-footer">UFH Residence Maintenance System</div>
-</div>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | UFH Residence Maintenance</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="cinematic-login-page">
+<main class="cinematic-login-stage">
+    <div class="cinematic-login-background" aria-hidden="true">
+        <img src="/images/ufh-campus-hero.png" alt="">
+        <div class="cinematic-login-shade"></div>
+        <div class="cinematic-login-vignette"></div>
+    </div>
+
+    <header class="cinematic-login-brand">
+        <div class="cinematic-login-logo">
+            <img src="/images/ufh-logo.png" alt="University of Fort Hare logo">
+        </div>
+        <div>
+            <div class="cinematic-login-university">UNIVERSITY OF FORT HARE</div>
+            <div class="cinematic-login-system">RESIDENCE MAINTENANCE PORTAL</div>
+        </div>
+    </header>
+
+    <div class="cinematic-login-topline" aria-hidden="true">
+        <span>STUDENT</span>
+        <span>MAINTENANCE</span>
+        <span>SUPPORT</span>
+    </div>
+
+    <section class="cinematic-login-card" aria-label="Sign in to the Residence Maintenance Portal">
+        <div class="cinematic-login-card-logo">
+            <img src="/images/ufh-logo.png" alt="University of Fort Hare logo">
+        </div>
+
+        <div class="auth-heading cinematic-auth-heading">
+            <div class="welcome-label">WELCOME BACK</div>
+            <h1>Sign in</h1>
+            <p>Access your residence maintenance portal.</p>
+        </div>
+
+        <p class="cinematic-login-message success-message" th:if="${param.loggedout}">You have been logged out successfully.</p>
+        <p class="cinematic-login-message success-message" th:if="${param.reset}">Password reset successfully. You can now sign in with your new password.</p>
+        <p class="cinematic-login-message error" th:if="${error}" th:text="${error}"></p>
+
+        <form method="post" action="/login">
+            <div class="form-group cinematic-form-group">
+                <label for="login-email">Email</label>
+                <input id="login-email" type="email" name="email" autocomplete="email" required>
+            </div>
+
+            <div class="form-group cinematic-form-group">
+                <label for="login-password">Password</label>
+                <div class="cinematic-password-wrap">
+                    <input id="login-password" type="password" name="password" autocomplete="current-password" required>
+                    <button class="cinematic-password-toggle" type="button" id="togglePassword" aria-label="Show password">◉</button>
+                </div>
+            </div>
+
+            <button type="submit" class="primary-button cinematic-login-button">
+                <span>Login</span>
+                <span aria-hidden="true">→</span>
+            </button>
+        </form>
+
+        <div class="cinematic-login-divider"><span>or</span></div>
+
+        <div class="cinematic-login-links">
+            <a href="/forgot-password">Forgot your password?</a>
+            <span class="cinematic-register-prompt">New here? <a href="/register">Create an account</a></span>
+        </div>
+    </section>
+
+    <div class="cinematic-login-poem" aria-label="A message for residence students">
+        <div>Your home matters.</div>
+        <div>Let your voice be heard.</div>
+        <span class="cinematic-gold-line" aria-hidden="true"></span>
+    </div>
+
+    <div class="cinematic-login-footer">
+        <span>SAFE RESIDENCES</span>
+        <span>•</span>
+        <span>STRONGER COMMUNITIES</span>
+    </div>
+</main>
+
+<script>
+    const passwordInput = document.getElementById('login-password');
+    const togglePassword = document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        togglePassword.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+        togglePassword.textContent = isPassword ? '◉' : '◉';
+    });
+</script>
 </body>
 </html>

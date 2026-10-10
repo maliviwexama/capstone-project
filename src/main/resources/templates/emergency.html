@@ -1,153 +1,133 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency / Immediate Services | UFH</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Emergency Services | UFH</title><link rel="stylesheet" href="/css/style.css"></head>
 <body>
-<div th:replace="~{fragments :: nav}"></div>
-
 <main class="emergency-page">
-    <section class="emergency-hero">
-        <div>
-            <div class="emergency-hero-title"><span>🚨</span> Emergency / Immediate Services</div>
-            <h1>Your safety, health and well-being matter.</h1>
-            <p>If you are in immediate danger or need urgent assistance, select what is happening below to find the most relevant service and call directly.</p>
-        </div>
-        <div class="emergency-hero-note">Safe Students<br><strong>Strong Residence</strong></div>
-    </section>
+  <div class="emergency-hero">
+    <div>
+      <img class="emergency-hero-illustration"
+           src="/images/illustrations/emergency.svg"
+           alt="Emergency services illustration"
+           style="display:block !important;
+            width:150px !important;
+            height:110px !important;
+            max-width:150px !important;
+            max-height:110px !important;
+            object-fit:contain !important;">
+      <div class="emergency-hero-title">Emergency / Immediate Services</div>
+      <h1>Get help quickly</h1>
+      <p>Choose the situation below. Emergency call buttons use your device's phone application when supported.</p>
+    </div>
+    <div class="emergency-hero-note">For immediate danger, call <strong>112</strong>.</div>
+  </div>
 
-    <section class="emergency-manager-banner">
-        <div>
-            <strong>🏠 Your Residence Manager / Duty Contact</strong>
-            <p th:if="${residenceManagerPhone != null}">Your residence has a saved emergency management number.</p>
-            <p th:unless="${residenceManagerPhone != null}">No residence-specific manager number has been configured yet. Contact UFH Protection Services below for urgent residence safety.</p>
-        </div>
-        <a th:if="${residenceManagerPhone != null}"
-           class="emergency-call" th:href="${'tel:' + residenceManagerPhone}"
-           th:text="${'☎ Call ' + residenceManagerPhone}"></a>
-        <a th:unless="${residenceManagerPhone != null}"
-           class="emergency-call secondary-call" href="tel:0437047396">☎ UFH Protection</a>
-    </section>
+  <div th:if="${residenceManagerPhone != null and !#strings.isEmpty(residenceManagerPhone)}" class="emergency-manager-banner">
+    <div><strong>Your Residence Manager / Duty Contact</strong><p>Use this number for urgent residence assistance.</p></div>
+    <a class="emergency-call manager-call" th:href="${'tel:' + residenceManagerPhone}" th:text="${'Call ' + residenceManagerPhone}"></a>
+  </div>
 
-    <section class="emergency-section">
-        <div class="emergency-step"><span>1</span><div><strong>What is happening?</strong><small>Select the situation that best describes what you are experiencing.</small></div></div>
+  <section class="emergency-section">
+    <h2>What is happening?</h2>
+    <div class="emergency-options">
+      <button class="emergency-option active" type="button" data-emergency="fire"><img src="/images/illustrations/emergency.svg" alt=""><strong>Fire / Smoke</strong></button>
+      <button class="emergency-option" type="button" data-emergency="security"><img src="/images/illustrations/emergency.svg" alt=""><strong>Theft / Burglary</strong></button>
+      <button class="emergency-option" type="button" data-emergency="electrical"><img src="/images/illustrations/maintenance.svg" alt=""><strong>Electrical Danger</strong></button>
+      <button class="emergency-option" type="button" data-emergency="flood"><img src="/images/illustrations/maintenance.svg" alt=""><strong>Flood / Burst Pipe</strong></button>
+      <button class="emergency-option" type="button" data-emergency="medical"><img src="/images/illustrations/emergency.svg" alt=""><strong>Medical Emergency</strong></button>
+      <button class="emergency-option" type="button" data-emergency="support"><img src="/images/illustrations/feedback.svg" alt=""><strong>Psychological Support</strong></button>
+      <button class="emergency-option" type="button" data-emergency="gbv"><img src="/images/illustrations/verification.svg" alt=""><strong>GBV / Sexual Violence</strong></button>
+      <button class="emergency-option" type="button" data-emergency="other"><img src="/images/illustrations/portal.svg" alt=""><strong>Other Emergency</strong></button>
+    </div>
+  </section>
 
-        <div class="emergency-options" role="tablist" aria-label="Emergency types">
-            <button class="emergency-option active" type="button" data-emergency="fire"><span>🔥</span><strong>Fire / Smoke</strong></button>
-            <button class="emergency-option" type="button" data-emergency="security"><span>🚨</span><strong>Theft / Burglary</strong></button>
-            <button class="emergency-option" type="button" data-emergency="electrical"><span>⚡</span><strong>Dangerous Electrical Problem</strong></button>
-            <button class="emergency-option" type="button" data-emergency="flood"><span>💧</span><strong>Major Flooding / Burst Pipe</strong></button>
-            <button class="emergency-option" type="button" data-emergency="medical"><span>✚</span><strong>Medical Emergency</strong></button>
-            <button class="emergency-option" type="button" data-emergency="support"><span>🧠</span><strong>Psychological Support</strong></button>
-            <button class="emergency-option" type="button" data-emergency="gbv"><span>🛡️</span><strong>GBV / Sexual Violence</strong></button>
-            <button class="emergency-option" type="button" data-emergency="other"><span>•••</span><strong>Other Emergency</strong></button>
-        </div>
-    </section>
+  <section class="emergency-section emergency-help-section">
+    <div id="emergency-fire" class="emergency-panel active-panel">
+      <div class="emergency-panel-heading"><img src="/images/illustrations/emergency.svg" alt=""><div><h2>FIRE / SMOKE</h2><p>Leave the danger area and call emergency services. Do not re-enter an unsafe building.</p></div></div>
+      <div class="emergency-contact-grid">
+        <div class="emergency-contact"><h3>Emergency Services</h3><p>From a mobile phone, call 112.</p><a class="emergency-call fire-call" href="tel:112">Call 112</a></div>
+        <div class="emergency-contact"><h3>Police / Security</h3><p>Police emergency: 10111.</p><a class="emergency-call" href="tel:10111">Call 10111</a></div>
+        <div class="emergency-contact"><h3>UFH Protection Services</h3><p>Campus/residence safety: 043 704 7396 or 082 053 5992.</p><a class="emergency-call secondary-call" href="tel:0437047396">Call UFH Protection</a></div>
+      </div>
+    </div>
 
-    <section class="emergency-section emergency-help-section">
-        <div class="emergency-step"><span>2</span><div><strong>Get the right help</strong><small>Call the appropriate service immediately. Do not wait for a normal maintenance request to be processed.</small></div></div>
+    <div id="emergency-security" class="emergency-panel">
+      <div class="emergency-panel-heading"><img src="/images/illustrations/emergency.svg" alt=""><div><h2>THEFT / BURGLARY</h2><p>Move to a safe location and avoid confronting the person involved.</p></div></div>
+      <div class="emergency-contact-grid">
+        <div class="emergency-contact"><h3>South African Police Service</h3><p>Police emergency number: 10111.</p><a class="emergency-call" href="tel:10111">Call 10111</a></div>
+        <div class="emergency-contact"><h3>Mobile Emergency</h3><p>For an immediate emergency from a mobile phone, call 112.</p><a class="emergency-call" href="tel:112">Call 112</a></div>
+        <div class="emergency-contact"><h3>UFH Protection Services</h3><p>Campus/residence safety: 043 704 7396 or 082 053 5992.</p><a class="emergency-call secondary-call" href="tel:0437047396">Call UFH Protection</a></div>
+      </div>
+    </div>
 
-        <div id="emergency-fire" class="emergency-panel active-panel">
-            <div class="emergency-panel-heading"><span>🔥</span><div><h2>FIRE / SMOKE</h2><p>If there is a fire, smoke, or another immediate fire-related danger, get to a safe place and call for help.</p></div></div>
-            <div class="emergency-contact-grid">
-                <div class="emergency-contact fire-contact"><span>🚒</span><h3>Emergency Services</h3><p>From a mobile phone, call <strong>112</strong>.</p><a class="emergency-call fire-call" href="tel:112">☎ Call 112</a></div>
-                <div class="emergency-contact"><span>👮</span><h3>Police / Security</h3><p>Police emergency: <strong>10111</strong>. UFH Protection Services: <strong>043 704 7396</strong> / <strong>082 053 5992</strong>.</p><a class="emergency-call" href="tel:10111">☎ Call 10111</a><a class="emergency-call secondary-call" href="tel:0437047396">☎ Call UFH Protection</a></div>
-                <div class="emergency-contact"><span>🏠</span><h3>UFH Protection Services</h3><p>For urgent campus/residence safety, UFH lists <strong>043 704 7396</strong> or <strong>082 053 5992</strong>.</p><a class="emergency-call secondary-call" href="tel:0437047396">☎ Call UFH Protection</a></div>
-            </div>
-        </div>
+    <div id="emergency-electrical" class="emergency-panel">
+      <div class="emergency-panel-heading"><img src="/images/illustrations/maintenance.svg" alt=""><div><h2>DANGEROUS ELECTRICAL PROBLEM</h2><p>Do not touch exposed wires, sparks, burning outlets or damaged equipment. Move away from the danger.</p></div></div>
+      <div class="emergency-contact-grid">
+        <div class="emergency-contact"><h3>Immediate Danger</h3><p>If there is fire, electrocution risk or immediate danger, call 112.</p><a class="emergency-call" href="tel:112">Call 112</a></div>
+        <div class="emergency-contact"><h3>Residence Maintenance</h3><p>For a non-life-threatening fault, submit a maintenance request and notify residence management.</p><a class="emergency-call secondary-call" href="/report-problem">Report Problem</a></div>
+        <div class="emergency-contact"><h3>UFH Protection Services</h3><p>For urgent campus/residence safety, call 043 704 7396.</p><a class="emergency-call secondary-call" href="tel:0437047396">Call UFH Protection</a></div>
+      </div>
+    </div>
 
-        <div id="emergency-security" class="emergency-panel">
-            <div class="emergency-panel-heading"><span>🚨</span><div><h2>THEFT / BURGLARY</h2><p>Move to a safe location and avoid confronting the person involved.</p></div></div>
-            <div class="emergency-contact-grid">
-                <div class="emergency-contact"><span>👮</span><h3>South African Police Service</h3><p>Police emergency number: <strong>10111</strong>.</p><a class="emergency-call" href="tel:10111">☎ Call 10111</a></div>
-                <div class="emergency-contact"><span>📱</span><h3>Mobile Emergency</h3><p>For an immediate emergency from a mobile phone, call <strong>112</strong>.</p><a class="emergency-call" href="tel:112">☎ Call 112</a></div>
-                <div class="emergency-contact"><span>🏠</span><h3>UFH Protection Services</h3><p>For urgent campus/residence safety, call <strong>043 704 7396</strong> or <strong>082 053 5992</strong>.</p><a class="emergency-call secondary-call" href="tel:0437047396">☎ Call UFH Protection</a></div>
-            </div>
-        </div>
+    <div id="emergency-flood" class="emergency-panel">
+      <div class="emergency-panel-heading"><img src="/images/illustrations/maintenance.svg" alt=""><div><h2>MAJOR FLOODING / BURST PIPE</h2><p>If water is creating an electrical or structural hazard, move to safety immediately.</p></div></div>
+      <div class="emergency-contact-grid">
+        <div class="emergency-contact"><h3>Immediate Danger</h3><p>If the flooding creates immediate danger, call 112.</p><a class="emergency-call" href="tel:112">Call 112</a></div>
+        <div class="emergency-contact"><h3>Residence Maintenance</h3><p>For urgent building assistance, contact residence management or submit a maintenance request when safe.</p><a class="emergency-call secondary-call" href="/report-problem">Report Problem</a></div>
+        <div class="emergency-contact"><h3>UFH Protection Services</h3><p>For urgent campus/residence safety, call 043 704 7396.</p><a class="emergency-call secondary-call" href="tel:0437047396">Call UFH Protection</a></div>
+      </div>
+    </div>
 
-        <div id="emergency-electrical" class="emergency-panel">
-            <div class="emergency-panel-heading"><span>⚡</span><div><h2>DANGEROUS ELECTRICAL PROBLEM</h2><p>Do not touch exposed wires, sparks, burning outlets or damaged electrical equipment. Move away from the danger.</p></div></div>
-            <div class="emergency-contact-grid">
-                <div class="emergency-contact"><span>🚨</span><h3>Immediate Danger</h3><p>If there is fire, electrocution risk or immediate danger, call <strong>112</strong>.</p><a class="emergency-call" href="tel:112">☎ Call 112</a></div>
-                <div class="emergency-contact"><span>🔧</span><h3>Residence Maintenance</h3><p>For a non-life-threatening fault, use the normal maintenance reporting system and notify residence management.</p></div>
-                <div class="emergency-contact"><span>🏠</span><h3>UFH Protection Services</h3><p>For urgent campus/residence safety, call <strong>043 704 7396</strong> or <strong>082 053 5992</strong>.</p><a class="emergency-call secondary-call" href="tel:0437047396">☎ Call UFH Protection</a></div>
-            </div>
-        </div>
+    <div id="emergency-medical" class="emergency-panel">
+      <div class="emergency-panel-heading"><img src="/images/illustrations/emergency.svg" alt=""><div><h2>MEDICAL EMERGENCY</h2><p>For serious injury, loss of consciousness or another medical emergency, seek professional help immediately.</p></div></div>
+      <div class="emergency-contact-grid">
+        <div class="emergency-contact"><h3>Ambulance</h3><p>Ambulance emergency number: 10177.</p><a class="emergency-call" href="tel:10177">Call 10177</a></div>
+        <div class="emergency-contact"><h3>Mobile Emergency</h3><p>From a mobile phone, call 112.</p><a class="emergency-call" href="tel:112">Call 112</a></div>
+        <div class="emergency-contact"><h3>UFH Protection Services</h3><p>Campus/residence safety: 043 704 7396.</p><a class="emergency-call secondary-call" href="tel:0437047396">Call UFH Protection</a></div>
+      </div>
+    </div>
 
-        <div id="emergency-flood" class="emergency-panel">
-            <div class="emergency-panel-heading"><span>💧</span><div><h2>MAJOR FLOODING / BURST PIPE</h2><p>If water is rapidly spreading or creating an electrical or structural hazard, move to safety.</p></div></div>
-            <div class="emergency-contact-grid">
-                <div class="emergency-contact"><span>🚨</span><h3>Immediate Danger</h3><p>If the flooding creates immediate danger, call <strong>112</strong>.</p><a class="emergency-call" href="tel:112">☎ Call 112</a></div>
-                <div class="emergency-contact"><span>🔧</span><h3>Residence Maintenance</h3><p>For urgent building assistance, contact the verified residence maintenance or manager number.</p></div>
-                <div class="emergency-contact"><span>🏠</span><h3>UFH Protection Services</h3><p>For urgent campus/residence safety, call <strong>043 704 7396</strong> or <strong>082 053 5992</strong>.</p><a class="emergency-call secondary-call" href="tel:0437047396">☎ Call UFH Protection</a></div>
-            </div>
-        </div>
+    <div id="emergency-support" class="emergency-panel">
+      <div class="emergency-panel-heading"><img src="/images/illustrations/feedback.svg" alt=""><div><h2>PSYCHOLOGICAL / EMOTIONAL SUPPORT</h2><p>You do not have to handle a crisis alone. Speak to someone you trust and use available support.</p></div></div>
+      <div class="emergency-contact-grid">
+        <div class="emergency-contact"><h3>Lifeline / National Crisis Line</h3><p>24-hour crisis counselling: 0861 322 322.</p><a class="emergency-call" href="tel:0861322322">Call Crisis Line</a></div>
+        <div class="emergency-contact"><h3>UFH Counselling &amp; Wellbeing</h3><p>UFH lists SADAG for after-hours emergencies: 0800 456 789. Alice counselling: 040 602 2279.</p><a class="emergency-call secondary-call" href="tel:0800456789">Call SADAG</a></div>
+        <div class="emergency-contact"><h3>Immediate Danger</h3><p>If you or someone else is in immediate physical danger, call 112.</p><a class="emergency-call" href="tel:112">Call 112</a></div>
+      </div>
+    </div>
 
-        <div id="emergency-medical" class="emergency-panel">
-            <div class="emergency-panel-heading"><span>✚</span><div><h2>MEDICAL EMERGENCY</h2><p>For a serious injury, loss of consciousness or other medical emergency, seek immediate professional help.</p></div></div>
-            <div class="emergency-contact-grid">
-                <div class="emergency-contact"><span>🚑</span><h3>Ambulance</h3><p>Ambulance emergency number: <strong>10177</strong>.</p><a class="emergency-call" href="tel:10177">☎ Call 10177</a></div>
-                <div class="emergency-contact"><span>📱</span><h3>Mobile Emergency</h3><p>From a mobile phone, call <strong>112</strong>.</p><a class="emergency-call" href="tel:112">☎ Call 112</a></div>
-                <div class="emergency-contact"><span>🏠</span><h3>UFH Protection Services</h3><p>For urgent campus/residence safety, call <strong>043 704 7396</strong> or <strong>082 053 5992</strong>.</p><a class="emergency-call secondary-call" href="tel:0437047396">☎ Call UFH Protection</a></div>
-            </div>
-        </div>
+    <div id="emergency-gbv" class="emergency-panel">
+      <div class="emergency-panel-heading"><img src="/images/illustrations/verification.svg" alt=""><div><h2>GENDER-BASED VIOLENCE / SEXUAL VIOLENCE</h2><p>If you are experiencing GBV or sexual violence, move to a safe place if possible and seek support.</p></div></div>
+      <div class="emergency-contact-grid">
+        <div class="emergency-contact"><h3>UFH Gender Based Violence Support</h3><p>UFH GBV contact: 072 864 5864.</p><a class="emergency-call" href="tel:0728645864">Call UFH GBV Support</a></div>
+        <div class="emergency-contact"><h3>National GBV Command Centre</h3><p>24-hour support: 0800 428 428. Free call-back request: *120*7867#.</p><a class="emergency-call" href="tel:0800428428">Call GBV Command Centre</a></div>
+        <div class="emergency-contact"><h3>Police / Immediate Danger</h3><p>If you are in immediate danger, call 10111 or 112.</p><a class="emergency-call" href="tel:10111">Call 10111</a><a class="emergency-call secondary-call" href="tel:112">Call 112</a></div>
+      </div>
+    </div>
 
-        <div id="emergency-support" class="emergency-panel">
-            <div class="emergency-panel-heading"><span>🧠</span><div><h2>PSYCHOLOGICAL / EMOTIONAL SUPPORT</h2><p>You do not have to handle a crisis alone. Speak to someone you trust and use the support available to you.</p></div></div>
-            <div class="emergency-contact-grid">
-                <div class="emergency-contact"><span>❤️</span><h3>Lifeline / National Crisis Line</h3><p>24-hour crisis counselling: <strong>0861 322 322</strong>.</p><a class="emergency-call" href="tel:0861322322">☎ Call Crisis Line</a></div>
-                <div class="emergency-contact"><span>🏫</span><h3>UFH Counselling & Wellbeing</h3><p>UFH lists SADAG for after-hours emergencies: <strong>0800 456 789</strong>. Alice counselling: <strong>040 602 2279</strong>.</p><a class="emergency-call secondary-call" href="tel:0800456789">☎ Call SADAG</a></div>
-                <div class="emergency-contact"><span>🚨</span><h3>Immediate Danger</h3><p>If you or someone else is in immediate physical danger, call <strong>112</strong>.</p><a class="emergency-call" href="tel:112">☎ Call 112</a></div>
-            </div>
-        </div>
+    <div id="emergency-other" class="emergency-panel">
+      <div class="emergency-panel-heading"><img src="/images/illustrations/portal.svg" alt=""><div><h2>OTHER EMERGENCY</h2><p>If the situation is urgent and you are unsure which service to contact, use the national mobile emergency number.</p></div></div>
+      <div class="emergency-contact-grid">
+        <div class="emergency-contact"><h3>Mobile Emergency</h3><p>Call 112 from a mobile phone.</p><a class="emergency-call" href="tel:112">Call 112</a></div>
+        <div class="emergency-contact"><h3>Police / UFH Protection</h3><p>Police: 10111. UFH Protection Services: 043 704 7396.</p><a class="emergency-call" href="tel:10111">Call 10111</a><a class="emergency-call secondary-call" href="tel:0437047396">Call UFH Protection</a></div>
+        <div class="emergency-contact"><h3>Residence Manager</h3><p th:if="${residenceManagerPhone != null and !#strings.isEmpty(residenceManagerPhone)}">Your verified residence contact is available above.</p><p th:unless="${residenceManagerPhone != null and !#strings.isEmpty(residenceManagerPhone)}">Sign in to see your residence manager contact.</p></div>
+      </div>
+    </div>
+  </section>
 
-        <div id="emergency-gbv" class="emergency-panel">
-            <div class="emergency-panel-heading"><span>🛡️</span><div><h2>GENDER-BASED VIOLENCE / SEXUAL VIOLENCE</h2><p>If you are experiencing or have experienced GBV, sexual violence, domestic violence, stalking or another form of abuse, move to a safe place if possible and seek support. You are not required to deal with this alone.</p></div></div>
-            <div class="emergency-contact-grid">
-                <div class="emergency-contact"><span>☎️</span><h3>UFH Gender Based Violence Support</h3><p>University of Fort Hare lists a GBV contact number: <strong>072 864 5864</strong>.</p><a class="emergency-call" href="tel:0728645864">☎ Call UFH GBV Support</a></div>
-                <div class="emergency-contact"><span>❤️</span><h3>National GBV Command Centre</h3><p>24-hour support: <strong>0800 428 428</strong>. You can also use <strong>*120*7867#</strong> for a free call-back request.</p><a class="emergency-call" href="tel:0800428428">☎ Call GBV Command Centre</a></div>
-                <div class="emergency-contact"><span>👮</span><h3>Police / Immediate Danger</h3><p>If you are in immediate danger, call <strong>10111</strong> or <strong>112</strong> from a mobile phone.</p><a class="emergency-call" href="tel:10111">☎ Call 10111</a><a class="emergency-call secondary-call" href="tel:112">☎ Call 112</a></div>
-            </div>
-            <div class="emergency-notice"><strong>GBV support:</strong> If it is safe to do so, preserve relevant evidence and seek medical care. You can choose who you tell and can ask a trusted person to accompany you. For an emergency, prioritise immediate safety.</div>
-        </div>
-
-        <div id="emergency-other" class="emergency-panel">
-            <div class="emergency-panel-heading"><span>🆘</span><div><h2>OTHER EMERGENCY</h2><p>If the situation is urgent and you are unsure which service to contact, use the national mobile emergency number.</p></div></div>
-            <div class="emergency-contact-grid">
-                <div class="emergency-contact"><span>📱</span><h3>Mobile Emergency</h3><p>Call <strong>112</strong> from a mobile phone.</p><a class="emergency-call" href="tel:112">☎ Call 112</a></div>
-                <div class="emergency-contact"><span>👮</span><h3>Police / UFH Protection</h3><p>Police: <strong>10111</strong>. UFH Protection Services: <strong>043 704 7396</strong>.</p><a class="emergency-call" href="tel:10111">☎ Call 10111</a><a class="emergency-call secondary-call" href="tel:0437047396">☎ Call UFH Protection</a></div>
-                <div class="emergency-contact"><span>🏠</span><h3>UFH Protection Services</h3><p>For urgent campus/residence safety, call <strong>043 704 7396</strong> or <strong>082 053 5992</strong>.</p><a class="emergency-call secondary-call" href="tel:0437047396">☎ Call UFH Protection</a></div>
-            </div>
-        </div>
-    </section>
-
-    <div class="emergency-warning"><strong>⚠ Important:</strong> This page is for urgent situations. If you are in immediate danger, get to a safe location and call emergency services. Do not wait for a normal maintenance request to be processed.</div>
-
-    <a href="/dashboard" class="back-link">← Back to Home</a>
+  <div class="emergency-warning"><strong>Important:</strong> If you are in immediate danger, get to a safe location and call emergency services. Do not wait for a normal maintenance request to be processed.</div>
+  <a href="/dashboard" class="back-link">Back to Home</a>
 </main>
-
 <script>
-    document.querySelectorAll('.emergency-option').forEach(function (button) {
-        button.addEventListener('click', function () {
-            var type = this.dataset.emergency;
-            document.querySelectorAll('.emergency-option').forEach(function (item) {
-                item.classList.remove('active');
-            });
-            this.classList.add('active');
-
-            document.querySelectorAll('.emergency-panel').forEach(function (panel) {
-                panel.classList.remove('active-panel');
-            });
-            var selected = document.getElementById('emergency-' + type);
-            if (selected) {
-                selected.classList.add('active-panel');
-                selected.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
+  document.querySelectorAll('.emergency-option').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var type = this.dataset.emergency;
+      document.querySelectorAll('.emergency-option').forEach(function (item) { item.classList.remove('active'); });
+      this.classList.add('active');
+      document.querySelectorAll('.emergency-panel').forEach(function (panel) { panel.classList.remove('active-panel'); });
+      var selected = document.getElementById('emergency-' + type);
+      if (selected) selected.classList.add('active-panel');
     });
+  });
 </script>
 </body>
 </html>

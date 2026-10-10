@@ -1,34 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Dashboard | UFH</title><link rel="stylesheet" href="/css/style.css"></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dashboard | UFH</title><link rel="stylesheet" href="/css/style.css"></head>
 <body>
 <div th:replace="~{fragments :: nav}"></div>
-<div class="page-header"><div><span class="eyebrow">UFH RESIDENCE PORTAL</span><h1>Welcome, <span th:text="${user.fullName}"></span>!</h1>
-<p>Report maintenance issues, track requests and stay informed about residence services.</p></div></div>
+<div class="page-header">
+  <div><span class="eyebrow">UFH RESIDENCE PORTAL</span><h1>Welcome, <span th:text="${user.fullName}"></span></h1>
+  <p>Report maintenance issues, track requests and stay informed about residence services.</p></div>
+</div>
 
-<div class="quick-actions">
-<a href="/report-problem" class="action-card"><span class="card-icon">🛠️</span><h3>Report a Problem</h3><p>Log a new maintenance issue.</p></a>
-<a href="/my-requests" class="action-card"><span class="card-icon">📋</span><h3>My Requests</h3><p>Track your submitted requests and responses.</p></a>
-<a href="/updates" class="action-card"><span class="card-icon">📢</span><h3>Residence Updates</h3><p>Read the latest residence announcements.</p></a>
-<a href="/emergency" class="action-card emergency-card"><span class="card-icon">🚨</span><h3>Emergency / Immediate Services</h3><p>Find the right service quickly in an emergency.</p></a>
-
+<div class="quick-actions dashboard-actions">
+  <a href="/report-problem" class="action-card">
+    <img class="card-illustration" src="/images/illustrations/maintenance.svg" alt="Maintenance illustration">
+    <h3>Report a Problem</h3><p>Log a new maintenance issue.</p>
+  </a>
+  <a href="/my-requests" class="action-card">
+    <img class="card-illustration" src="/images/illustrations/requests.svg" alt="Requests illustration">
+    <h3>My Requests</h3><p>Track your submitted requests and responses.</p>
+  </a>
+  <a href="/updates" class="action-card">
+    <img class="card-illustration" src="/images/illustrations/notice.svg" alt="Residence updates illustration">
+    <h3>Residence Updates</h3><p>Read the latest residence announcements.</p>
+  </a>
+  <a href="/emergency" class="action-card emergency-card">
+    <img class="card-illustration" src="/images/illustrations/emergency.svg" alt="Emergency services illustration">
+    <h3>Emergency / Immediate Services</h3><p>Find the right service quickly in an emergency.</p>
+  </a>
 </div>
 
 <section th:if="${!#lists.isEmpty(bulletins)}" class="dashboard-bulletin card">
-    <div class="bulletin-heading">
-        <div><span class="eyebrow">DAILY BULLETIN</span><h2>Residence Updates</h2></div>
-        <a href="/updates">View all</a>
-    </div>
-    <article class="dashboard-bulletin-item" th:each="bulletin : ${bulletins}">
-        <div class="bulletin-meta" th:text="${#temporals.format(bulletin.createdAt, 'dd MMM yyyy, HH:mm')}"></div>
-        <h3 th:text="${bulletin.title}"></h3>
-        <p th:text="${bulletin.message}"></p>
-    </article>
+  <div class="bulletin-heading">
+    <div><span class="eyebrow">DAILY BULLETIN</span><h2>Residence Updates</h2></div>
+    <a href="/updates">View all</a>
+  </div>
+  <article class="dashboard-bulletin-item" th:each="bulletin : ${bulletins}">
+    <div class="bulletin-meta" th:text="${#temporals.format(bulletin.createdAt, 'dd MMM yyyy, HH:mm')}"></div>
+    <h3 th:text="${bulletin.title}"></h3>
+    <p th:text="${bulletin.message}"></p>
+  </article>
+</section>
+
+<section th:if="${user.userType.name() == 'STUDENT' and user.verificationStatus.name() == 'REJECTED'}" class="card verification-reupload-card">
+  <span class="eyebrow">VERIFICATION ACTION REQUIRED</span>
+  <h2>Your proof of residence was rejected</h2>
+  <p th:text="${user.verificationReviewMessage != null ? user.verificationReviewMessage : 'Please upload a correct proof of residence document for administrator review.'}"></p>
+  <p class="error" th:if="${verificationUploadError}" th:text="${verificationUploadError}"></p>
+  <form method="post" action="/verification/reupload" enctype="multipart/form-data" class="response-form">
+    <label for="replacementProof">Upload corrected proof of residence (PDF only, max 5MB)</label>
+    <input type="file" id="replacementProof" name="proofDocument" accept=".pdf,application/pdf" required>
+    <button type="submit">Resubmit for Review</button>
+  </form>
+</section>
+
+<section th:if="${user.userType.name() == 'STUDENT' and user.verificationStatus.name() == 'PENDING' and user.verificationReviewMessage != null}" class="card verification-reupload-card">
+  <span class="eyebrow">VERIFICATION</span>
+  <p th:text="${user.verificationReviewMessage}"></p>
 </section>
 
 <div th:if="${user.userType.name() == 'STUDENT'}" class="zone-banner">
-    <span th:if="${activeZone != null}">Currently accepting non-urgent requests from: <strong th:text="${activeZone.name}"></strong></span>
-    <span th:if="${activeZone == null}">No zone is currently active for non-urgent requests. Urgent issues are still processed immediately.</span>
+  <span th:if="${activeZone != null}">Currently accepting non-urgent requests from: <strong th:text="${activeZone.name}"></strong></span>
+  <span th:if="${activeZone == null}">No zone is currently active for non-urgent requests. Urgent issues are still processed immediately.</span>
 </div>
 
 <div class="how-it-works">

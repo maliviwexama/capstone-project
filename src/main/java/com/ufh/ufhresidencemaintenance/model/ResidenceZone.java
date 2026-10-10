@@ -15,7 +15,7 @@ public class ResidenceZone {
 
     private boolean active;
 
-    @OneToMany(mappedBy = "zone")
+    @OneToMany(mappedBy = "zone", fetch = FetchType.EAGER)
     private List<Residence> residences;
 
     public Long getId() {

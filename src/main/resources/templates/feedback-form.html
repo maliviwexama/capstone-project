@@ -1,116 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Leave Feedback</title>
-    <link rel="stylesheet" href="/css/style.css">
-
-    <style>
-        .feedback-container {
-            width: 500px;
-            margin: 40px auto;
-            padding: 25px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-
-        .stars {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: flex-end;
-            gap: 5px;
-            margin: 15px 0;
-        }
-
-        .stars input {
-            display: none;
-        }
-
-        .stars label {
-            font-size: 35px;
-            color: #ccc;
-            cursor: pointer;
-        }
-
-        .stars input:checked ~ label,
-        .stars label:hover,
-        .stars label:hover ~ label {
-            color: gold;
-        }
-
-        textarea {
-            width: 100%;
-            height: 120px;
-            padding: 10px;
-            box-sizing: border-box;
-            resize: vertical;
-        }
-
-        button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Feedback | UFH</title><link rel="stylesheet" href="/css/style.css"></head>
 <body>
-
-<div class="feedback-container">
-
-    <h1>Leave Feedback</h1>
-
-    <p>
-        <strong>Maintenance Request:</strong>
-        <span th:text="${complaint.description}"></span>
-    </p>
-
-    <form method="post" action="/feedback">
-
-        <input type="hidden"
-               name="complaintId"
-               th:value="${complaint.id}">
-
-        <label><strong>How would you rate the service? <span class="muted">(optional)</span></strong></label>
-
-        <div class="stars">
-
-            <input type="radio" id="star5" name="rating" value="5">
-            <label for="star5">★</label>
-
-            <input type="radio" id="star4" name="rating" value="4">
-            <label for="star4">★</label>
-
-            <input type="radio" id="star3" name="rating" value="3">
-            <label for="star3">★</label>
-
-            <input type="radio" id="star2" name="rating" value="2">
-            <label for="star2">★</label>
-
-            <input type="radio" id="star1" name="rating" value="1">
-            <label for="star1">★</label>
-
-        </div>
-
-        <label for="comment"><strong>Comment</strong> <span class="muted">(you can submit a comment without a rating)</span></label>
-
-        <br><br>
-
-        <textarea id="comment"
-                  name="comment"
-                  placeholder="Tell us about your experience..."></textarea>
-
-        <br>
-
-        <button type="submit">Submit Feedback</button>
-
-    </form>
-
-    <p>
-        <a href="/my-requests">← Back to My Requests</a>
-    </p>
-
+<div th:replace="~{fragments :: nav}"></div>
+<div class="page-header"><div><span class="eyebrow">SERVICE FEEDBACK</span><h1>Give Feedback</h1><p>Tell us how your maintenance request was handled.</p></div></div>
+<div class="card form-card">
+<p class="error" th:if="${error}" th:text="${error}"></p>
+<form method="post" action="/feedback" class="standard-form">
+<input type="hidden" name="complaintId" th:value="${complaint.id}">
+<label>Request</label><p class="muted" th:text="${complaint.description}"></p>
+<label>Rating</label>
+<div class="rating-options" role="radiogroup" aria-label="Service rating">
+  <label th:each="n : ${#numbers.sequence(1,5)}" class="rating-option"><input type="radio" name="rating" th:value="${n}" required><span th:text="${n}"></span><small th:text="${n == 1 ? 'Poor' : (n == 5 ? 'Excellent' : '')}"></small></label>
 </div>
-
+<label>Comment (optional)</label><textarea name="comment" rows="6" maxlength="2000" placeholder="Tell us what went well or what should improve."></textarea>
+<button type="submit">Submit Feedback</button>
+</form>
+</div>
 </body>
 </html>

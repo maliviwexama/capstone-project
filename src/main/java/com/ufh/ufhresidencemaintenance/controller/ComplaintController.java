@@ -48,7 +48,15 @@ public class ComplaintController {
         Long userId = (Long) session.getAttribute("loggedInUser");
         if (userId == null) return "redirect:/login";
         User currentUser = userRepository.findById(userId).orElse(null);
+        if (currentUser == null) return "redirect:/login";
+
+        // A one-time token prevents double-clicks, accidental resubmission and
+        // browser refreshes from creating the same maintenance request twice.
+        String complaintFormToken = UUID.randomUUID().toString();
+        session.setAttribute("complaintFormToken", complaintFormToken);
+
         model.addAttribute("user", currentUser);
+        model.addAttribute("complaintFormToken", complaintFormToken);
         return "report-problem";
     }
 
@@ -57,6 +65,8 @@ public class ComplaintController {
             @RequestParam String description,
             @RequestParam ComplaintCategory category,
             @RequestParam String roomNumber,
+            @RequestParam String complaintFormToken,
+            @RequestParam(required = false, defaultValue = "false") boolean safetyConcern,
             @RequestParam(required = false) MultipartFile photo,
             HttpSession session,
             Model model) {
@@ -67,14 +77,28 @@ public class ComplaintController {
         User currentUser = userRepository.findById(userId).orElse(null);
         if (currentUser == null) return "redirect:/login";
 
+        // The checkbox is helpful, but the system also detects common safety
+        // indicators so a student does not have to know the priority rules.
+        boolean detectedSafetyConcern = safetyConcern || detectSafetyConcern(description);
         boolean isStaffOrAdmin = currentUser.getUserType() != UserType.STUDENT;
-        boolean isHighSeverity = category.getSeverityWeight() >= 4;
+        boolean isHighSeverity = category.getSeverityWeight() >= 4 || detectedSafetyConcern;
         boolean residenceIsActive = currentUser.getResidence() != null
                 && currentUser.getResidence().getZone() != null
                 && currentUser.getResidence().getZone().isActive();
 
         if (!isStaffOrAdmin && !isHighSeverity && !residenceIsActive) {
             return "residence-not-active";
+        }
+
+        // Consume the form token after request validation but before saving any
+        // file or complaint. This prevents duplicate submissions while still
+        // allowing validation errors above to be corrected.
+        synchronized (session) {
+            String expectedToken = (String) session.getAttribute("complaintFormToken");
+            if (expectedToken == null || !expectedToken.equals(complaintFormToken)) {
+                return "redirect:/my-requests";
+            }
+            session.removeAttribute("complaintFormToken");
         }
 
         String savedPhotoName = null;
@@ -95,7 +119,9 @@ public class ComplaintController {
                 savedPhotoName = UUID.randomUUID() + extension;
                 Files.copy(photo.getInputStream(), COMPLAINT_UPLOAD_DIR.resolve(savedPhotoName));
             } catch (IOException e) {
+                session.setAttribute("complaintFormToken", complaintFormToken);
                 model.addAttribute("user", currentUser);
+                model.addAttribute("complaintFormToken", complaintFormToken);
                 model.addAttribute("error", "The photo could not be saved. Please try again.");
                 return "report-problem";
             }
@@ -109,9 +135,37 @@ public class ComplaintController {
         complaint.setDateLogged(java.time.LocalDateTime.now());
         complaint.setUser(currentUser);
         complaint.setPhotoPath(savedPhotoName);
+        complaint.setSafetyConcern(detectedSafetyConcern);
         complaintRepository.save(complaint);
 
+        model.addAttribute("priorityLevel", complaint.getPriorityLevel());
+        model.addAttribute("safetyDetected", detectedSafetyConcern);
         return "report-success";
+    }
+
+    private boolean detectSafetyConcern(String description) {
+        if (description == null || description.isBlank()) return false;
+        String text = description.toLowerCase(java.util.Locale.ROOT);
+
+        String[] directHazards = {
+                "exposed wire", "exposed wiring", "sparking", "electric shock",
+                "smoke", "fire", "gas leak", "flood", "flooding", "burst pipe",
+                "broken door", "door broken", "broken lock", "lock broken",
+                "broken gate", "gate broken", "cannot lock", "can't lock",
+                "unsafe", "dangerous", "security risk", "intruder", "break in",
+                "ceiling falling", "wall collapsing"
+        };
+
+        for (String hazard : directHazards) {
+            if (text.contains(hazard)) return true;
+        }
+
+        // Catch combined reports such as “broken door and bulb”, where the
+        // student may describe more than one maintenance category in one field.
+        boolean securityIssue = text.contains("door") || text.contains("lock") || text.contains("gate");
+        boolean electricalIssue = text.contains("bulb") || text.contains("light")
+                || text.contains("socket") || text.contains("switch") || text.contains("electric");
+        return securityIssue && electricalIssue;
     }
 
     @GetMapping("/complaints/photo/{id}")

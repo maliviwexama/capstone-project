@@ -150,16 +150,19 @@ public class AdminController {
 
     @PostMapping("/admin/complaints/assign")
     public String assignComplaint(@RequestParam Long complaintId,
-                                  @RequestParam Long technicianId,
+                                  @RequestParam(required = false) Long technicianId,
                                   @RequestParam ComplaintStatus status,
                                   HttpSession session) {
         User currentUser = getAdmin(session);
         if (currentUser == null) return "redirect:/login";
 
         Complaint complaint = complaintRepository.findById(complaintId).orElse(null);
-        Technician technician = technicianRepository.findById(technicianId).orElse(null);
+        Technician technician = technicianId == null ? null : technicianRepository.findById(technicianId).orElse(null);
 
         if (complaint != null && !complaint.isArchived()) {
+            if (status != ComplaintStatus.REJECTED && technician == null) {
+                return "redirect:/admin/complaints?technicianRequired=true";
+            }
             if (complaint.getUser() != null && complaint.getUser().getUserType() == UserType.STUDENT
                     && complaint.getUser().getVerificationStatus() != VerificationStatus.APPROVED) {
                 return "redirect:/admin/complaints?verificationRequired=true";
@@ -176,6 +179,14 @@ public class AdminController {
                 complaint.setResolvedAt(LocalDateTime.now());
             } else if (status != ComplaintStatus.RESOLVED) {
                 complaint.setResolvedAt(null);
+            }
+
+            if (status == ComplaintStatus.REJECTED) {
+                complaint.setArchived(true);
+                complaint.setArchivedAt(LocalDateTime.now());
+                complaint.setArchivedByAdmin(currentUser);
+                complaint.setAdminResponse("This maintenance request was rejected and archived by the administrator.");
+                complaint.setResponseDate(LocalDateTime.now());
             }
             complaintRepository.save(complaint);
         }
@@ -300,6 +311,13 @@ public class AdminController {
                             Model model, HttpSession session) {
         if (getAdmin(session) == null) return "redirect:/login";
 
+        String normalizedFullName = fullName == null ? "" : fullName.trim().replaceAll("\\s+", " ");
+        if (!java.util.regex.Pattern.matches("^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ .'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$", normalizedFullName)) {
+            model.addAttribute("error", "Full name may contain letters, spaces, apostrophes, hyphens and full stops only.");
+            model.addAttribute("residences", residenceZoneRepository.findAll());
+            return "admin-add-member";
+        }
+
         String normalizedEmail = email == null ? "" : email.trim().toLowerCase();
         if (userRepository.findByEmail(normalizedEmail).isPresent()) {
             model.addAttribute("error", "An account with that email already exists.");
@@ -336,7 +354,7 @@ public class AdminController {
         }
 
         User user = new User();
-        user.setFullName(fullName);
+        user.setFullName(normalizedFullName);
         user.setEmail(normalizedEmail);
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setUserType(userType);
@@ -444,6 +462,13 @@ public class AdminController {
             student.setVerificationStatus(decision);
             student.setVerificationReviewedAt(LocalDateTime.now());
             student.setVerificationReviewedByAdmin(admin);
+            if (decision == VerificationStatus.REJECTED) {
+                student.setVerificationReviewMessage("Your proof of residence document was rejected. Please upload a correct PDF proof of residence for the current academic year and resubmit it for review.");
+            } else if (decision == VerificationStatus.APPROVED) {
+                student.setVerificationReviewMessage("Your proof of residence has been approved. You may now use the residence maintenance services.");
+            } else {
+                student.setVerificationReviewMessage(null);
+            }
             userRepository.save(student);
         }
         return "redirect:/admin/verifications";

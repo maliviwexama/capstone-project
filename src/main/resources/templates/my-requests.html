@@ -43,7 +43,7 @@
         <td>
             <a class="button-link" th:if="${complaint.status.name() == 'RESOLVED' and !hasFeedback[complaint.id]}"
                th:href="@{/feedback(complaintId=${complaint.id})}">Leave Feedback</a>
-            <span th:if="${complaint.status.name() == 'RESOLVED' and hasFeedback[complaint.id]}">Submitted ✓</span>
+            <span th:if="${complaint.status.name() == 'RESOLVED' and hasFeedback[complaint.id]}">Submitted </span>
             <span th:if="${complaint.status.name() != 'RESOLVED'}" class="muted">Available when resolved</span>
         </td>
     </tr>

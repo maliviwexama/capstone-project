@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" role="img" aria-label="Notice illustration">
+  <path d="M110 20 184 54v52l-74 34-74-34V54z" fill="none" stroke="#1A3C6E" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M110 20v120M36 54l74 34 74-34" fill="none" stroke="#1A3C6E" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="110" cy="84" r="22" fill="#fff" stroke="#F4B942" stroke-width="7"/>
+  <path d="M110 73v17M110 99v2" fill="none" stroke="#1A3C6E" stroke-width="7" stroke-linecap="round"/>
+</svg>

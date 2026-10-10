@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFH Residence Maintenance Portal</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="cinematic-cover" style="visibility:hidden;">
+<main class="cover-stage" aria-label="University of Fort Hare Residence Maintenance introduction">
+    <div class="cover-background" aria-hidden="true">
+        <img src="/images/ufh-campus-hero.png" alt="University of Fort Hare campus">
+        <div class="cover-image-shade"></div>
+        <div class="cover-vignette"></div>
+    </div>
+
+    <header class="cover-brand">
+        <div class="cover-logo-wrap">
+            <img src="/images/ufh-logo.png" alt="University of Fort Hare logo">
+        </div>
+        <div>
+            <div class="cover-university">UNIVERSITY OF FORT HARE</div>
+            <div class="cover-system">RESIDENCE MAINTENANCE PORTAL</div>
+        </div>
+    </header>
+
+    <section class="cover-copy">
+        <div class="cover-kicker">STUDENT RESIDENCE • MAINTENANCE • SUPPORT</div>
+        <h1>Residence<br><span>Maintenance Portal</span></h1>
+        <p>One place to report problems, track repairs and help keep UFH residence communities safe, connected and cared for.</p>
+    </section>
+
+    <footer class="cover-footer">
+        <div class="cover-poem-wrap">
+            <p class="cover-poem" id="coverPoem" aria-live="polite"></p>
+        </div>
+        <button class="cover-enter" id="coverEnter" type="button" onclick="enterPortal()" disabled aria-label="Enter Residence Maintenance Portal">
+            <span>Enter Portal</span>
+            <span class="cover-arrow" aria-hidden="true">→</span>
+        </button>
+    </footer>
+</main>
+
+<script>
+    const poem = "Every home has a story — every repair keeps it going.";
+    const poemTarget = document.getElementById("coverPoem");
+    const enterButton = document.getElementById("coverEnter");
+
+    function typePoem() {
+        let index = 0;
+        const timer = setInterval(() => {
+            poemTarget.textContent = poem.slice(0, index);
+            index++;
+
+            if (index > poem.length) {
+                clearInterval(timer);
+                poemTarget.classList.add("typed-complete");
+                enterButton.disabled = false;
+                enterButton.classList.add("ready");
+            }
+        }, 55);
+    }
+
+    function enterPortal() {
+        document.querySelector(".cover-stage").classList.add("cover-exit");
+        setTimeout(() => window.location.href = "/login", 650);
+    }
+
+    // Always show the cinematic portal whenever the root URL is opened.
+    // This keeps the landing experience available for demos and presentations.
+    document.body.style.visibility = "visible";
+    window.setTimeout(typePoem, 1200);
+</script>
+</body>
+</html>

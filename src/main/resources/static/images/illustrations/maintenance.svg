@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" role="img" aria-label="Maintenance illustration">
+  <g fill="none" stroke="#1A3C6E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 72 92 25l62 47v66H30z"/>
+    <path d="M75 138V94h34v44"/>
+    <path d="M54 82h18M120 82h18"/>
+    <path d="m151 101 28 28"/>
+  </g>
+  <path d="M174 126a18 18 0 0 1-22-22l10 10 8-8-10-10a18 18 0 0 1 22 22l-7 7 7 7z" fill="none" stroke="#F4B942" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" role="img" aria-label="Residence zones illustration">
+  <g fill="none" stroke="#1A3C6E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 138V72l42-30 42 30v66"/>
+    <path d="M112 138V60l42-30 42 30v78"/>
+    <path d="M46 84h20M46 108h20M134 76h20M134 100h20"/>
+    <path d="M82 138v-26h28v26"/>
+  </g>
+  <circle cx="154" cy="124" r="22" fill="#fff" stroke="#F4B942" stroke-width="7"/>
+  <path d="M144 124l7 7 13-16" fill="none" stroke="#1A3C6E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

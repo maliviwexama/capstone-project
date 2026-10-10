@@ -939,3 +939,1231 @@ Mobile
 .verification-warning { margin-top:5px; color:#a93226; font-size:.78rem; font-weight:700; }
 .verification-pill.rejected { background:#fde8e8; color:#a93226; }
 button:disabled, select:disabled, textarea:disabled { opacity:.55; cursor:not-allowed; }
+
+/* =========================================================
+   FINAL RESPONSIVE ILLUSTRATION SYSTEM
+   ========================================================= */
+.card-illustration {
+    display: block;
+    width: 64px;
+    height: 64px;
+    max-width: 64px;
+    max-height: 64px;
+    object-fit: contain;
+    margin: 0 0 12px;
+}
+
+.page-illustration {
+    display: block;
+    width: 72px;
+    height: 72px;
+    max-width: 72px;
+    max-height: 72px;
+    object-fit: contain;
+    margin: 0 auto 14px;
+}
+
+.emergency-hero-illustration {
+    display: block;
+    width: 76px;
+    height: 76px;
+    max-width: 76px;
+    max-height: 76px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.dashboard-actions {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.dashboard-actions .action-card {
+    width: auto;
+    min-height: 190px;
+    padding: 20px;
+}
+
+.dashboard-actions .action-card h3 {
+    font-size: 1.05rem;
+}
+
+.illustration-inline {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+}
+
+.illustration-inline img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.emergency-options {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.emergency-option {
+    min-height: 118px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.emergency-option img {
+    width: 42px;
+    height: 42px;
+    max-width: 42px;
+    max-height: 42px;
+    object-fit: contain;
+}
+
+.emergency-panel-heading > img {
+    width: 52px;
+    height: 52px;
+    max-width: 52px;
+    max-height: 52px;
+    object-fit: contain;
+    flex: 0 0 52px;
+}
+
+.emergency-contact {
+    min-height: 160px;
+}
+
+.emergency-contact h3 {
+    margin-top: 0;
+}
+
+.manager-call {
+    min-width: 180px;
+}
+
+.security-note {
+    background: #fff7df;
+    border-left: 4px solid #f0b429;
+    color: #594a20;
+    border-radius: 7px;
+    padding: 11px 13px;
+    margin: 12px 0 16px;
+    font-size: .86rem;
+}
+
+.rating-options {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 4px 0 18px;
+}
+
+.rating-option {
+    border: 1px solid #d9e0e8;
+    border-radius: 9px;
+    background: #fff;
+    padding: 10px 6px;
+    text-align: center;
+    cursor: pointer;
+    margin: 0;
+}
+
+.rating-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.rating-option span {
+    display: block;
+    color: #1a3c6e;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.rating-option small {
+    display: block;
+    min-height: 1em;
+    color: #687384;
+    font-size: .72rem;
+}
+
+.rating-option:has(input:checked) {
+    border: 2px solid #f0b429;
+    background: #fff9e9;
+}
+
+/* Prevent any decorative image from ever becoming a full-screen element. */
+img {
+    max-width: 100%;
+}
+
+@media (max-width: 1050px) {
+    .dashboard-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.emergency-page .emergency-hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+}
+
+.emergency-page .emergency-hero > div:first-child {
+    min-width: 0;
+}
+
+.emergency-page .emergency-hero-note {
+    white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+    .emergency-page .emergency-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .emergency-page .emergency-hero-note {
+        white-space: normal;
+    }
+}
+
+
+/* =========================================================
+   EMERGENCY PAGE
+   Compact illustration sizing
+   ========================================================= */
+
+.emergency-page img {
+    object-fit: contain;
+    max-width: 100%;
+}
+
+/* Main emergency illustration */
+.emergency-page .emergency-hero-illustration {
+    display: block !important;
+    width: 150px !important;
+    height: 110px !important;
+    max-width: 150px !important;
+    max-height: 110px !important;
+    object-fit: contain !important;
+    margin: 0 auto 12px !important;
+}
+
+/* Emergency situation buttons */
+.emergency-page .emergency-option img {
+    display: block !important;
+    width: 42px !important;
+    height: 42px !important;
+    max-width: 42px !important;
+    max-height: 42px !important;
+    object-fit: contain !important;
+}
+
+/* Illustration inside selected emergency panel */
+.emergency-page .emergency-panel-heading > img {
+    display: block !important;
+    width: 52px !important;
+    height: 52px !important;
+    max-width: 52px !important;
+    max-height: 52px !important;
+    object-fit: contain !important;
+    flex: 0 0 52px !important;
+}
+
+/* Smaller screens */
+@media (max-width: 600px) {
+
+    .emergency-page .emergency-hero-illustration {
+        width: 100px !important;
+        height: 80px !important;
+        max-width: 100px !important;
+        max-height: 80px !important;
+    }
+
+    .emergency-page .emergency-option img {
+        width: 36px !important;
+        height: 36px !important;
+        max-width: 36px !important;
+        max-height: 36px !important;
+    }
+
+    .emergency-page .emergency-panel-heading > img {
+        width: 44px !important;
+        height: 44px !important;
+        max-width: 44px !important;
+        max-height: 44px !important;
+        flex-basis: 44px !important;
+    }
+}
+
+/* =========================================================
+   CINEMATIC LANDING / FIRST-SESSION COVER
+   ========================================================= */
+/* =========================================================
+   CINEMATIC UFH LANDING PAGE
+   ========================================================= */
+.cinematic-cover {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #071629;
+    color: #fff;
+}
+
+.cover-stage {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    isolation: isolate;
+    transition: opacity .65s ease, transform .65s ease;
+}
+
+.cover-stage.cover-exit {
+    opacity: 0;
+    transform: scale(1.018);
+}
+
+.cover-background {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    overflow: hidden;
+    background: #071629;
+}
+
+.cover-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transform: scale(1.035);
+    animation: coverSlowZoom 14s ease-out both;
+}
+
+.cover-image-shade {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(4,17,36,.91) 0%, rgba(4,17,36,.74) 34%, rgba(4,17,36,.22) 68%, rgba(4,17,36,.28) 100%),
+        linear-gradient(180deg, rgba(4,17,36,.30) 0%, rgba(4,17,36,.08) 45%, rgba(4,17,36,.78) 100%);
+}
+
+.cover-vignette {
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 160px rgba(0,0,0,.58);
+    pointer-events: none;
+}
+
+@keyframes coverSlowZoom {
+    from { transform: scale(1.035); }
+    to { transform: scale(1.08); }
+}
+
+.cover-brand {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 30px 5vw 0;
+    animation: coverFadeDown .8s ease-out both;
+}
+
+.cover-logo-wrap {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    padding: 5px;
+    background: rgba(255,255,255,.96);
+    box-shadow: 0 8px 30px rgba(0,0,0,.30);
+    flex: 0 0 58px;
+}
+
+.cover-logo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.cover-university {
+    font-size: .7rem;
+    letter-spacing: 2.2px;
+    font-weight: 800;
+    color: rgba(255,255,255,.84);
+}
+
+.cover-system {
+    margin-top: 3px;
+    font-size: .92rem;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.cover-copy {
+    position: relative;
+    z-index: 3;
+    width: min(700px, 88vw);
+    margin-left: 5vw;
+    margin-top: auto;
+    margin-bottom: 4vh;
+    animation: coverFadeUp 1s .15s ease-out both;
+}
+
+.cover-kicker {
+    color: #f4b942;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 12px rgba(0,0,0,.35);
+}
+
+.cover-copy h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.6rem, 5.8vw, 5.6rem);
+    line-height: .94;
+    letter-spacing: -2.5px;
+    text-shadow: 0 6px 28px rgba(0,0,0,.34);
+}
+
+.cover-copy h1 span {
+    color: #f4b942;
+}
+
+.cover-copy p {
+    max-width: 600px;
+    margin: 20px 0 0;
+    color: rgba(255,255,255,.84);
+    font-size: 1rem;
+    line-height: 1.65;
+    text-shadow: 0 2px 14px rgba(0,0,0,.4);
+}
+
+.cover-footer {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 0 5vw 32px;
+}
+
+.cover-poem-wrap {
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+}
+
+.cover-poem {
+    min-height: 28px;
+    margin: 0;
+    color: rgba(255,255,255,.90);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(.95rem, 1.5vw, 1.12rem);
+    font-style: italic;
+    letter-spacing: .15px;
+    text-shadow: 0 2px 12px rgba(0,0,0,.45);
+}
+
+.cover-poem::after {
+    content: "|";
+    margin-left: 3px;
+    color: #f4b942;
+    font-style: normal;
+    animation: coverCursor .75s step-end infinite;
+}
+
+.cover-poem.typed-complete::after {
+    animation: coverCursor 1s step-end 2, coverCursorHide .01s 2s forwards;
+}
+
+@keyframes coverCursor {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@keyframes coverCursorHide {
+    to { opacity: 0; }
+}
+
+.cover-enter {
+    flex: 0 0 auto;
+    min-width: 180px;
+    height: 52px;
+    padding: 0 22px;
+    border: 1px solid rgba(244,185,66,.30);
+    border-radius: 10px;
+    background: rgba(7,22,41,.72);
+    color: rgba(255,255,255,.40);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: .9rem;
+    font-weight: 800;
+    letter-spacing: .3px;
+    cursor: not-allowed;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    backdrop-filter: blur(8px);
+    transition: opacity .45s ease, transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+
+.cover-enter.ready {
+    color: #102c50;
+    background: #f4b942;
+    border-color: #f4b942;
+    cursor: pointer;
+    box-shadow: 0 10px 32px rgba(244,185,66,.28);
+    animation: coverButtonIn .6s ease-out both;
+}
+
+.cover-enter.ready:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 38px rgba(244,185,66,.38);
+}
+
+.cover-arrow {
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+@keyframes coverFadeDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes coverFadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes coverButtonIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cover-background img,
+    .cover-brand,
+    .cover-copy,
+    .cover-enter.ready {
+        animation: none;
+    }
+    .cover-stage { transition: none; }
+}
+
+@media (max-width: 760px) {
+    .cover-stage { min-height: 100svh; }
+    .cover-brand { padding: 20px 20px 0; }
+    .cover-logo-wrap { width: 48px; height: 48px; flex-basis: 48px; }
+    .cover-university { font-size: .58rem; letter-spacing: 1.4px; }
+    .cover-system { font-size: .76rem; }
+    .cover-copy { width: auto; margin: auto 20px 3vh; }
+    .cover-kicker { font-size: .62rem; letter-spacing: 2px; }
+    .cover-copy h1 { font-size: clamp(2.35rem, 11vw, 4rem); letter-spacing: -1.5px; }
+    .cover-copy p { font-size: .88rem; max-width: 470px; }
+    .cover-footer { padding: 0 20px 20px; flex-direction: column; align-items: stretch; gap: 15px; }
+    .cover-poem-wrap { min-height: 42px; }
+    .cover-enter { width: 100%; }
+    .cover-image-shade {
+        background:
+            linear-gradient(90deg, rgba(4,17,36,.88) 0%, rgba(4,17,36,.58) 100%),
+            linear-gradient(180deg, rgba(4,17,36,.35) 0%, rgba(4,17,36,.15) 42%, rgba(4,17,36,.86) 100%);
+    }
+}
+
+/* Priority and safety guidance */
+.safety-check {
+    display: flex !important;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    margin: 8px 0 20px;
+    border: 1px solid #ead9a7;
+    border-left: 4px solid #f4b942;
+    border-radius: 9px;
+    background: #fffaf0;
+    cursor: pointer;
+}
+
+.safety-check input {
+    width: 18px !important;
+    height: 18px;
+    margin: 2px 0 0 !important;
+    flex: 0 0 18px;
+}
+
+.safety-check span { display: block; }
+.safety-check strong { display: block; color: #1a3c6e; margin-bottom: 2px; }
+.safety-check small { display: block; color: #6b7280; line-height: 1.45; font-weight: 400; }
+
+.priority-guide {
+    margin: 4px 0 24px;
+    padding: 18px;
+    border: 1px solid #e4eaf1;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f8fafc, #eef4fa);
+}
+
+.priority-guide h2 { margin: 0 0 6px; color: #1a3c6e; font-size: 1.1rem; }
+.priority-guide > p { color: #687384; font-size: .9rem; }
+
+.priority-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 14px 0;
+}
+
+.priority-guide-grid > div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px;
+    border-radius: 9px;
+    background: #fff;
+    border: 1px solid #e7ebf0;
+}
+
+.priority-guide-grid span { color: #697586; font-size: .78rem; line-height: 1.45; }
+
+.priority-level {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .4px;
+}
+
+.priority-level.high { color:#9f1d1d; background:#fde8e8; }
+.priority-level.medium { color:#8a5a00; background:#fff2c9; }
+.priority-level.low { color:#2d6a45; background:#e6f4eb; }
+
+.safety-badge {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: #fff0d1;
+    color: #8a5a00;
+    font-size: .65rem;
+    font-weight: 800;
+    letter-spacing: .4px;
+}
+
+@media (max-width: 720px) {
+    .priority-guide-grid { grid-template-columns: 1fr; }
+}
+
+
+/* =========================================================
+   FINAL UX POLISH
+   ========================================================= */
+.form-hint {
+    display: block;
+    margin-top: 6px;
+    color: #687384;
+    font-size: .82rem;
+}
+.submitted-priority {
+    margin: 22px auto;
+    padding: 15px 18px;
+    max-width: 520px;
+    border: 1px solid #dce3eb;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+.submitted-priority p { margin: 7px 0 0; }
+.success-page {
+    max-width: 760px;
+    margin: 42px auto;
+    text-align: center;
+    padding: 34px;
+}
+.success-page .page-illustration { width: 74px; height: 74px; }
+.success-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+.admin-open-time {
+    white-space: nowrap;
+}
+
+/* Keep dashboard illustrations compact at every desktop width. */
+.dashboard-actions .card-illustration {
+    width: 64px !important;
+    height: 64px !important;
+    max-width: 64px !important;
+    max-height: 64px !important;
+    object-fit: contain !important;
+}
+
+@media (max-width: 700px) {
+    .dashboard-actions { grid-template-columns: 1fr; }
+    .dashboard-actions .action-card { min-height: 0; }
+    .success-page { margin: 22px 12px; padding: 24px 18px; }
+}
+
+/* =========================================================
+   CINEMATIC UFH LOGIN
+   Uses the same campus photography as the first-visit cover.
+   Login functionality remains unchanged; these styles only
+   redesign the presentation of the login page.
+   ========================================================= */
+.cinematic-login-page {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: #071a31;
+    color: #fff;
+}
+
+.cinematic-login-stage {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 92px 24px 72px;
+}
+
+.cinematic-login-background,
+.cinematic-login-shade,
+.cinematic-login-vignette {
+    position: absolute;
+    inset: 0;
+}
+
+.cinematic-login-background {
+    z-index: 0;
+}
+
+.cinematic-login-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transform: scale(1.03);
+}
+
+.cinematic-login-shade {
+    background:
+        linear-gradient(180deg, rgba(4, 18, 36, .76) 0%, rgba(4, 18, 36, .35) 34%, rgba(4, 18, 36, .67) 100%),
+        linear-gradient(90deg, rgba(3, 19, 39, .62) 0%, rgba(3, 19, 39, .15) 52%, rgba(3, 19, 39, .38) 100%);
+}
+
+.cinematic-login-vignette {
+    background: radial-gradient(circle at center, transparent 38%, rgba(0, 8, 18, .48) 100%);
+    pointer-events: none;
+}
+
+.cinematic-login-brand {
+    position: absolute;
+    z-index: 3;
+    top: 28px;
+    left: 4.2vw;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .35);
+}
+
+.cinematic-login-logo,
+.cinematic-login-card-logo {
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.cinematic-login-logo {
+    width: 58px;
+    height: 58px;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, .28);
+}
+
+.cinematic-login-logo img {
+    width: 47px;
+    height: 47px;
+    object-fit: contain;
+}
+
+.cinematic-login-university {
+    font-size: clamp(.8rem, 1.15vw, 1.12rem);
+    font-weight: 800;
+    letter-spacing: 2.2px;
+}
+
+.cinematic-login-system {
+    margin-top: 5px;
+    font-size: clamp(.62rem, .85vw, .82rem);
+    letter-spacing: 2.7px;
+    color: rgba(255, 255, 255, .82);
+}
+
+.cinematic-login-topline {
+    position: absolute;
+    z-index: 3;
+    top: 31px;
+    right: 4.2vw;
+    display: flex;
+    gap: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(244, 185, 66, .82);
+    color: rgba(255, 255, 255, .9);
+    font-size: .66rem;
+    font-weight: 800;
+    letter-spacing: 2.1px;
+}
+
+.cinematic-login-card {
+    position: relative;
+    z-index: 2;
+    width: min(500px, 94vw);
+    box-sizing: border-box;
+    padding: 32px 40px 30px;
+    border: 1px solid rgba(255, 255, 255, .28);
+    border-top: 3px solid #f4b942;
+    border-radius: 22px;
+    background: rgba(10, 29, 53, .62);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255, 255, 255, .12);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.cinematic-login-card-logo {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 18px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .25);
+}
+
+.cinematic-login-card-logo img {
+    width: 63px;
+    height: 63px;
+    object-fit: contain;
+}
+
+.cinematic-auth-heading {
+    text-align: center;
+    margin-bottom: 23px;
+}
+
+.cinematic-auth-heading .welcome-label {
+    color: #f4b942;
+    margin-bottom: 6px;
+}
+
+.cinematic-auth-heading h1 {
+    margin: 0 0 6px;
+    color: #fff;
+    font-size: clamp(1.85rem, 3vw, 2.35rem);
+    line-height: 1.1;
+}
+
+.cinematic-auth-heading p {
+    margin: 0;
+    color: rgba(255, 255, 255, .78);
+    font-size: .92rem;
+}
+
+/* Prevent the global form styling from turning the cinematic login form into a large white panel. */
+.cinematic-login-card form {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.cinematic-login-card .cinematic-form-group {
+    margin-bottom: 17px;
+}
+
+.cinematic-login-card .cinematic-form-group label {
+    color: #fff;
+    margin-bottom: 7px;
+}
+
+.cinematic-login-card .cinematic-form-group input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    border: 1px solid rgba(255, 255, 255, .32);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
+    padding: 0 14px;
+}
+
+.cinematic-login-card .cinematic-form-group input::placeholder {
+    color: rgba(255, 255, 255, .5);
+}
+
+.cinematic-login-card .cinematic-form-group input:focus {
+    border-color: #f4b942;
+    background: rgba(255, 255, 255, .12);
+    box-shadow: 0 0 0 3px rgba(244, 185, 66, .14);
+}
+
+.cinematic-password-wrap {
+    position: relative;
+}
+
+.cinematic-password-wrap input {
+    padding-right: 48px !important;
+}
+
+.cinematic-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, .82);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 7px;
+}
+
+.cinematic-password-toggle:hover {
+    color: #f4b942;
+}
+
+.cinematic-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    height: 52px;
+    margin-top: 9px;
+    border-radius: 10px;
+    background: #f4b942;
+    color: #12345e;
+    box-shadow: 0 8px 24px rgba(244, 185, 66, .22);
+}
+
+.cinematic-login-button:hover {
+    background: #ffd166;
+    color: #102f56;
+    transform: translateY(-1px);
+}
+
+.cinematic-login-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 21px 0 14px;
+    color: rgba(255, 255, 255, .58);
+    font-size: .8rem;
+}
+
+.cinematic-login-divider::before,
+.cinematic-login-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, .22);
+}
+
+.cinematic-login-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: .85rem;
+}
+
+.cinematic-login-links a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.cinematic-login-links a:hover {
+    color: #f4b942;
+}
+
+.cinematic-register-prompt {
+    color: rgba(255, 255, 255, .65);
+}
+
+.cinematic-login-message {
+    margin: -8px 0 14px;
+    padding: 9px 11px;
+    border-radius: 8px;
+    font-size: .8rem;
+}
+
+.cinematic-login-card .success-message {
+    color: #e7fff0;
+    background: rgba(46, 125, 50, .28);
+    border: 1px solid rgba(120, 220, 140, .35);
+}
+
+.cinematic-login-card .error {
+    color: #ffe4e4;
+    background: rgba(160, 35, 35, .3);
+    border: 1px solid rgba(255, 150, 150, .3);
+}
+
+.cinematic-login-poem {
+    position: absolute;
+    z-index: 2;
+    left: 4.2vw;
+    bottom: 9.5vh;
+    max-width: 360px;
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: clamp(1.05rem, 1.65vw, 1.5rem);
+    line-height: 1.35;
+    text-shadow: 0 3px 18px rgba(0, 0, 0, .58);
+}
+
+.cinematic-login-poem div:last-of-type {
+    color: #f4b942;
+}
+
+.cinematic-gold-line {
+    display: block;
+    width: 60px;
+    height: 3px;
+    margin-top: 17px;
+    background: #f4b942;
+}
+
+.cinematic-login-footer {
+    position: absolute;
+    z-index: 2;
+    right: 4.2vw;
+    bottom: 5.4vh;
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    color: rgba(255, 255, 255, .78);
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+}
+
+.cinematic-login-footer span:nth-child(2) {
+    color: #f4b942;
+}
+
+@media (max-width: 900px) {
+    .cinematic-login-stage {
+        padding-top: 95px;
+        padding-bottom: 95px;
+    }
+
+    .cinematic-login-topline {
+        display: none;
+    }
+
+    .cinematic-login-poem {
+        left: 24px;
+        bottom: 25px;
+        max-width: 280px;
+        font-size: 1rem;
+    }
+
+    .cinematic-login-footer {
+        right: 24px;
+        bottom: 25px;
+        font-size: .55rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .cinematic-login-stage {
+        min-height: 100svh;
+        padding: 105px 14px 145px;
+        align-items: flex-start;
+    }
+
+    .cinematic-login-brand {
+        top: 18px;
+        left: 18px;
+        gap: 10px;
+    }
+
+    .cinematic-login-logo {
+        width: 45px;
+        height: 45px;
+    }
+
+    .cinematic-login-logo img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .cinematic-login-university {
+        font-size: .66rem;
+        letter-spacing: 1.2px;
+    }
+
+    .cinematic-login-system {
+        font-size: .52rem;
+        letter-spacing: 1.3px;
+    }
+
+    .cinematic-login-card {
+        width: 100%;
+        padding: 25px 21px 24px;
+        border-radius: 18px;
+    }
+
+    .cinematic-login-card-logo {
+        width: 66px;
+        height: 66px;
+    }
+
+    .cinematic-login-card-logo img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .cinematic-auth-heading h1 {
+        font-size: 1.75rem;
+    }
+
+    .cinematic-login-poem {
+        left: 18px;
+        bottom: 67px;
+        max-width: 245px;
+        font-size: .92rem;
+    }
+
+    .cinematic-gold-line {
+        width: 45px;
+        margin-top: 11px;
+    }
+
+    .cinematic-login-footer {
+        left: 18px;
+        right: auto;
+        bottom: 22px;
+        font-size: .48rem;
+        letter-spacing: 1px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cinematic-login-card,
+    .cinematic-login-background img {
+        transition: none !important;
+        transform: none !important;
+    }
+}
+
+
+/* =========================================================
+   CINEMATIC AUTH BACKGROUND - REGISTER + PASSWORD RECOVERY
+   Keeps the first authentication pages visually consistent
+   with the cinematic login experience.
+   ========================================================= */
+.cinematic-auth-page {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    padding: 44px 20px;
+    background:
+        linear-gradient(135deg, rgba(5, 20, 43, 0.86), rgba(18, 51, 91, 0.72)),
+        url('/images/ufh-campus-hero.png') center center / cover fixed no-repeat;
+}
+
+.cinematic-auth-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 35%, rgba(255,255,255,0.05), transparent 45%),
+                linear-gradient(to bottom, rgba(3, 13, 29, 0.10), rgba(3, 13, 29, 0.42));
+}
+
+.cinematic-auth-page .auth-container {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+}
+
+.cinematic-auth-page .auth-brand {
+    text-shadow: 0 3px 18px rgba(0, 0, 0, 0.35);
+}
+
+.cinematic-auth-page .auth-card form {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.cinematic-auth-page .auth-card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-top: 5px solid #f4b942;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.cinematic-auth-page .auth-heading h2 {
+    color: #163b6d;
+}
+
+.cinematic-auth-page .auth-footer a,
+.cinematic-auth-page .auth-card a {
+    color: #1a3c6e;
+}
+
+@media (max-width: 700px) {
+    .cinematic-auth-page {
+        padding: 28px 14px;
+        background-attachment: scroll;
+    }
+
+    .cinematic-auth-page .auth-card {
+        padding: 28px 22px;
+    }
+}
+
+
+.verification-reupload-card {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+}
+.verification-reupload-card form {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    max-width: 620px;
+}

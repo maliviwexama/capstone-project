@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Submitted</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Submitted | UFH</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<h1>Problem reported successfully!</h1>
-<p>Your maintenance request has been logged.</p>
-<p><a href="/dashboard">Back to Dashboard</a></p>
+<div th:replace="~{fragments :: nav}"></div>
+<div class="success-page card">
+    <img class="page-illustration" src="/images/illustrations/success.svg" alt="Request submitted">
+    <span class="eyebrow">REQUEST SUBMITTED</span>
+    <h1>Problem reported successfully</h1>
+    <p>Your maintenance request has been logged and is now available to the residence team.</p>
+
+    <div class="submitted-priority" th:if="${priorityLevel != null}">
+        <strong>Initial priority: </strong>
+        <span class="priority-level" th:classappend="${#strings.toLowerCase(priorityLevel)}" th:text="${priorityLevel}"></span>
+        <p class="muted">Priority can increase when a request remains unresolved for longer.</p>
+    </div>
+
+    <div class="security-note" th:if="${safetyDetected == true}">
+        <strong>Safety consideration detected.</strong> The system flagged this report as potentially safety-related so administrators can consider it appropriately when reviewing the queue.
+    </div>
+
+    <div class="success-actions">
+        <a class="button-link" href="/my-requests">View My Requests</a>
+        <a class="button-link secondary-button-link" href="/dashboard">Back to Dashboard</a>
+    </div>
+</div>
 </body>
 </html>

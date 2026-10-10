@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-labelledby="title desc">
+  <title id="title">Emergency call illustration</title>
+  <desc id="desc">A navy telephone handset inside a gold outlined shield.</desc>
+  <rect x="8" y="8" width="224" height="164" rx="28" fill="#f6f8fb"/>
+  <path d="M120 30 190 54v43c0 39-28 57-70 72-42-15-70-33-70-72V54z" fill="#fff" stroke="#1a3c6e" stroke-width="7"/>
+  <path d="M91 70c-7 5-10 12-8 20 7 29 29 51 58 58 8 2 15-1 20-8l10-14-22-16-11 11c-12-6-22-16-28-28l11-11-16-22z" fill="#1a3c6e"/>
+  <circle cx="175" cy="48" r="18" fill="#f4b942" stroke="#1a3c6e" stroke-width="5"/>
+  <path d="M175 38v11l7 6" fill="none" stroke="#1a3c6e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

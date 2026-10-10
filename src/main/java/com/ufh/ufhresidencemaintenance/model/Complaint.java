@@ -32,6 +32,10 @@ public class Complaint {
 
     private LocalDateTime responseDate;
 
+    /** Indicates that the reported issue presents a direct safety concern. */
+    @Column(nullable = false)
+    private boolean safetyConcern = false;
+
     @Column(length = 500)
     private String photoPath;
 
@@ -98,6 +102,7 @@ public class Complaint {
     public double getPriorityScore() {
         if (category == null) return 0.0;
         double base = category.getSeverityWeight();
+        if (safetyConcern) base += 2.0;
         if (dateLogged == null) return base;
 
         LocalDateTime end = status == ComplaintStatus.RESOLVED
@@ -152,6 +157,39 @@ public class Complaint {
                 : LocalDateTime.now();
         return Math.max(0.0, Duration.between(dateLogged, end).toMinutes() / 60.0);
     }
+
+    /**
+     * Compact administrator-friendly display of how long the complaint has been open.
+     * Examples: 2h 14m, 1d 3h 08m, 3d 0h 42m.
+     */
+    public String getElapsedDisplay() {
+        if (dateLogged == null) return "Not available";
+        LocalDateTime end = (status == ComplaintStatus.RESOLVED && resolvedAt != null)
+                ? resolvedAt : LocalDateTime.now();
+        long totalMinutes = Math.max(0, Duration.between(dateLogged, end).toMinutes());
+        long days = totalMinutes / (24 * 60);
+        long hours = (totalMinutes % (24 * 60)) / 60;
+        long minutes = totalMinutes % 60;
+
+        if (days > 0) {
+            return days + (days == 1 ? " day" : " days") + ", "
+                    + hours + (hours == 1 ? " hour" : " hours");
+        }
+        if (hours > 0) {
+            return hours + (hours == 1 ? " hour" : " hours") + ", "
+                    + minutes + (minutes == 1 ? " minute" : " minutes");
+        }
+        return minutes + (minutes == 1 ? " minute" : " minutes");
+    }
+
+    /** Explains why the complaint is being treated as a safety-related issue. */
+    public String getSafetyReason() {
+        if (!safetyConcern) return "";
+        return "Safety concern reported or detected; this can increase priority.";
+    }
+
+    public boolean isSafetyConcern() { return safetyConcern; }
+    public void setSafetyConcern(boolean safetyConcern) { this.safetyConcern = safetyConcern; }
 
     public String getAdminResponse() { return adminResponse; }
     public void setAdminResponse(String adminResponse) { this.adminResponse = adminResponse; }

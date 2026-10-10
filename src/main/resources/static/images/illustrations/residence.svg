@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" role="img" aria-label="Residence building illustration">
+  <g fill="none" stroke="#1A3C6E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 138V50l80-30 80 30v88z"/>
+    <path d="M53 72h24v20H53zM93 72h24v20H93zM133 72h24v20h-24z"/>
+    <path d="M53 104h24v20H53zM93 104h24v20H93zM133 104h24v20h-24z"/>
+    <path d="M101 138v-23h18v23"/>
+  </g>
+  <path d="M110 20v-9M98 24l-7-6M122 24l7-6" fill="none" stroke="#F4B942" stroke-width="6" stroke-linecap="round"/>
+</svg>

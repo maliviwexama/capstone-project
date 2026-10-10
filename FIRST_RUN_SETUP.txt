@@ -1,0 +1,30 @@
+UFH RESIDENCE MAINTENANCE - FIRST RUN SETUP
+
+The application needs a local MySQL password before it can start.
+
+1. Open:
+   src/main/resources/application.properties
+
+2. Replace:
+   YOUR_LOCAL_MYSQL_PASSWORD
+
+   with the password for the MySQL root account used on this PC.
+
+3. Make sure the MySQL80 Windows service is running.
+
+4. Make sure the database exists:
+   ufh_residence_maintenance
+
+5. Run the application from IntelliJ using:
+   UfhResidenceMaintenanceApplication.java
+
+LAN testing:
+- server.address=0.0.0.0 is already configured.
+- On the PC, find its IPv4 address with: ipconfig
+- On a phone connected to the same Wi-Fi, open:
+  http://YOUR-PC-IP:8080
+
+SECURITY:
+- application.properties is intentionally ignored by Git because it can contain a database password.
+- Do not commit your real password to GitHub.
+- You can also provide the password through the DB_PASSWORD environment variable instead of putting it in the file.
